@@ -2,7 +2,9 @@ import React from 'react';
 
 class Orders extends React.Component {
   render() {
-    return null;
+    return (
+      <p>Orders!</p>
+    );
   }
 }
 
