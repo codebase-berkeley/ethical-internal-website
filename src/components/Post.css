@@ -1,0 +1,9 @@
+.Post-box {
+    background-color: #FDE4E4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 5vw 5vw 5vw 5vw;
+    padding: 1em;
+}
+
