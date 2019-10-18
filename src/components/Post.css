@@ -1,9 +1,10 @@
 .Post-box {
-    background-color: #FDE4E4;
+    background-color: #C4C4C4;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    margin: 5vw 5vw 5vw 5vw;
+    align-items: flex-start;
+    margin: 5vw;
     padding: 1em;
+    border-radius: 12px;
 }
 

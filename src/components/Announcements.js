@@ -5,8 +5,9 @@ const postValues = [
   {
     title: 'New Inventory',
     date: '10/17/19',
-    content: 'Hello, I am buying things right now'
+    content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry'
   },
+    
   {
     title: 'New Application',
     date: '10/20/19',

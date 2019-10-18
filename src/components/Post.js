@@ -6,13 +6,13 @@ class Post extends React.Component {
     return (
       <div className = "Post-box" >
       <h1 className = "Post-title">
-        (this.props.title)
+        {this.props.title}
       </h1>
-      <h1 className = "Post-date">
-        (this.props.date)
-      </h1>
+      <p className = "Post-date">
+        {this.props.date}
+      </p>
       <p className = "Post-content">
-        (this.props.content)
+        {this.props.content}
       </p>
     </div>
     );
