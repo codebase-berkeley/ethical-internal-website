@@ -2,7 +2,9 @@ import React from 'react';
 
 class Announcements extends React.Component {
   render() {
-    return null;
+    return 
+    <div className = "Header" >
+    </div>;
   }
 }
 
