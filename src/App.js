@@ -7,7 +7,6 @@ import Orders from './components/Orders';
 function App() {
   return (
     <div className="App">
-      <p>Hello world!</p>
       <Announcements />
       <Inventory />
       <Orders />
