@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Mentored Project Fa19
+This is the Mentored Project Fa19 - we are making this for ethical!
 
 ## Available Scripts!
 
