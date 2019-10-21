@@ -1,8 +1,8 @@
-import React from 'react';
-import './App.css';
-import Announcements from './components/Announcements';
-import Inventory from './components/Inventory';
-import Orders from './components/Orders';
+import React from "react";
+import "./App.css";
+import Announcements from "./components/Announcements";
+import Inventory from "./components/Inventory";
+import Orders from "./components/Orders";
 
 function App() {
   return (
