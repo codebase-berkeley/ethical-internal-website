@@ -4,6 +4,7 @@ import Post from "./Post";
 const postValues = [
   {
     title: "New Inventory",
+    name: "Mike Hunt",
     date: "10/17/19",
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
@@ -12,6 +13,7 @@ const postValues = [
 
   {
     title: "New Application",
+    name: "Hugh Jass",
     date: "10/20/19",
     content: "Finding New Members. Application is now open.",
     id: 2

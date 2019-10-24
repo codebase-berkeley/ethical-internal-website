@@ -7,3 +7,43 @@
   padding: 1em;
   border-radius: 12px;
 }
+
+.Post-title {
+  display: flex;
+  color: #000000;
+  margin: 5px;
+  font: roboto;
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.Post-name {
+  display: flex;
+  color: #000000;
+  margin: 8px;
+  font-size: 15px;
+  margin-top: 0px;
+}
+
+.Post-date {
+  display: flex;
+  color: #000000;
+  margin: 8px;
+  font-size: 15px;
+  margin-top: 0px;
+}
+
+.Post-name-date {
+  display: flex;
+  color: #000000;
+  margin-right: 5px;
+}
+
+.Post-content {
+  display: flex;
+  color: #000000;
+  margin: 8px;
+  margin-top: 20px;
+  align-content: left;
+  text-align: left;
+}
