@@ -51,16 +51,48 @@ import DataTable from "./DataTable";
 //   )
 
 class Orders extends React.Component {
-  render() {
-    const headings = ["Name", "Item", "Quantity", "Size"];
+  constructor() {
+    super();
+    this.state = {
+      output: []
+    };
+  }
+  async componentDidMount() {
+    const response = await fetch("http://localhost:3000/orders");
+    const json = await response.json();
+    //console.log(response.body.read());
+    this.setState({ output: json.map(elem => elem) });
+  }
+  // updateStats(){
+  //   this.setState({
+  //     output: this.state.output
+  //   })
+  // }
 
-    const rows = [
-      ["Trevor Aquino", "The Shirt", 2, "M"],
-      ["Parth Shah", "The Other Shirt", 1, "L"]
+  render() {
+    const headings = [
+      "Pick Up Date",
+      "Last",
+      "First",
+      "Order#",
+      "Size/Style",
+      "Item Ordered",
+      "Item Quantity"
     ];
+    const api_rows = this.state.output;
+    console.log(api_rows);
+    // for (let i = 0; i < 4; i++) {
+
+    //   const rows =[]
+    // }
+    //for
+    // const rows = [
+    //   ["Trevor Aquino", "The Shirt", 2, "M"],
+    //   ["Parth Shah", "The Other Shirt", 1, "L"]
+    // ];
     return (
       <div className="Orders">
-        <DataTable headings={headings} rows={rows} />
+        <DataTable headings={headings} rows={api_rows} />
       </div>
     );
   }
