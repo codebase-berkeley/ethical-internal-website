@@ -8,7 +8,9 @@ class NavigationBar extends React.Component {
       <div className="Nav-bar">
         <ul>
           <li>
-            <Link to="/announcements">Announcements</Link>
+            <Link to="/announcements" style={{ textDecoration: "none" }}>
+              Announcements
+            </Link>
           </li>
           <li>
             <Link to="/inventory">Inventory</Link>
