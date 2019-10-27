@@ -8,9 +8,7 @@ class NavigationBar extends React.Component {
       <div className="Nav-bar">
         <ul>
           <li>
-            <Link to="/announcements" style={{ textDecoration: "none" }}>
-              Announcements
-            </Link>
+            <Link to="/announcements">Announcements</Link>
           </li>
           <li>
             <Link to="/inventory">Inventory</Link>
@@ -34,7 +32,7 @@ class NavigationBar extends React.Component {
             <Orders />
           </Route>
           <Route path="/">
-            <Home />
+            <Ethical />
           </Route>
         </Switch>
       </div>
@@ -54,7 +52,7 @@ function Inventory() {
   return <h2>Inventory</h2>;
 }
 
-function Home() {
+function Ethical() {
   return <h2>Home</h2>;
 }
 
