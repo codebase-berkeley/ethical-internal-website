@@ -10,7 +10,7 @@ class Orders extends React.Component {
     };
   }
   async componentDidMount() {
-    const response = await fetch("http://localhost:3000/orders");
+    const response = await fetch("http://localhost:3001/orders");
     const json = await response.json();
     this.setState({ output: json.map(elem => elem) });
   }
@@ -26,7 +26,6 @@ class Orders extends React.Component {
       "Item Quantity"
     ];
     const api_rows = this.state.output;
-    console.log(api_rows);
 
     return (
       <div className="Orders">

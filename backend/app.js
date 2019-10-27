@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = 3001;
 const cors = require("cors");
 app.use(cors());
 
@@ -9,39 +9,25 @@ app.get("/orders", function(req, res) {
   fs.readFile("credentials.json", (err, content) => {
     if (err) return console.log("Error loading client secret file:", err);
     // Authorize a client with credentials, then call the Google Sheets API.
-    authorize(JSON.parse(content), listMajors);
+    authorize(JSON.parse(content), getSheetsData);
   });
 
   /**
-   * Prints the names and majors of students in a sample spreadsheet:
+   * Prints the order information from EthiCal's Google Sheet:
    * @see https://docs.google.com/spreadsheets/d/1ZNnltFhQluexcZrwWpuaIlMLtDQTeAI2WsoRHWgmELg/edit#gid=0
    * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
    */
-  function listMajors(auth) {
+  function getSheetsData(auth) {
     const sheets = google.sheets({ version: "v4", auth });
     sheets.spreadsheets.values.get(
       {
-        // (1) Updating function to use batchGet()
         spreadsheetId: "1ZNnltFhQluexcZrwWpuaIlMLtDQTeAI2WsoRHWgmELg",
-        // (2) Updating "range"
         range: "A2:G"
       },
       (err, response) => {
         if (err) return console.log("The API returned an error: " + err);
-        // (3) Pulling first two ranges into arrays - data format changes from.values to .valueRanges[range defined above].values
         const rows = response.data.values;
         if (rows.length) {
-          console.log(
-            "Pick Up Date, LastName, FirstName, Size/Style, ItemName" +
-              ", Quantity, Picked up?: "
-          );
-          // Print columns A and E, which correspond to indices 0 and 4.
-          rows.map(row => {
-            console.log(
-              `${row[0]}, ${row[1]}, ${row[2]}, ${row[4]}, ${row[5]}, 
-            ${row[6]}, ${row[7]}`
-            );
-          });
           res.send(rows);
         } else {
           console.log("No data found.");
