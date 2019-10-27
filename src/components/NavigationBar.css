@@ -18,3 +18,12 @@
 .left {
   float: left;
 }
+
+.Nav-bar a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.Nav-bar a:hover {
+  background-color: #111;
+}
