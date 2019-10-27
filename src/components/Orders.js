@@ -6,13 +6,13 @@ class Orders extends React.Component {
   constructor() {
     super();
     this.state = {
-      output: []
+      orderRows: []
     };
   }
   async componentDidMount() {
     const response = await fetch("http://localhost:3001/orders");
     const json = await response.json();
-    this.setState({ output: json.map(elem => elem) });
+    this.setState({ orderRows: json.map(elem => elem) });
   }
 
   render() {
@@ -25,11 +25,10 @@ class Orders extends React.Component {
       "Item Ordered",
       "Item Quantity"
     ];
-    const api_rows = this.state.output;
 
     return (
       <div className="Orders">
-        <DataTable headings={headings} rows={api_rows} />
+        <DataTable headings={headings} rows={this.state.orderRows} />
       </div>
     );
   }
