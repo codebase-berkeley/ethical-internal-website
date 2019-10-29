@@ -45,14 +45,16 @@ export default class DataTable extends React.Component {
     const tbodyMarkup = <tr key="body">{rows.map(this.renderRow)}</tr>;
 
     return (
-      <table className="Table">
-        <div className="HeaderRow">
-          <thead>{theadMarkup}</thead>
-        </div>
-        <div className="BodyRows">
-          <tbody>{tbodyMarkup}</tbody>
-        </div>
-      </table>
+      <div>
+        <table className="Table">
+          <div className="HeaderRow">
+            <thead>{theadMarkup}</thead>
+          </div>
+          <div className="BodyRows">
+            <tbody>{tbodyMarkup}</tbody>
+          </div>
+        </table>
+      </div>
     );
   }
 }
