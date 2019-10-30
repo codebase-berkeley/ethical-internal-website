@@ -17,6 +17,7 @@ app.get("/inventory", function(req, res) {
 });
 
 async function getId(callback) {
+  let inventoryList = [];
   let idList = [];
   let config = {
     headers: {
@@ -32,51 +33,28 @@ async function getId(callback) {
     )
     .then(function(response) {
       for (let i = 0; i < response.data.data.length; i++) {
-        idList.push(response.data.data[i].id);
+        idList.push(response.data.data[i].relationships.options.data[0].id);
       }
-      let counter = 0;
-      getInventory(idList, result => {
-        counter += 1;
-        if (counter == idList.length) {
-          callback(JSON.stringify(result));
-        }
-      });
-    });
-}
-
-function getInventory(list, callback) {
-  let inventoryList = [];
-  let idList = list;
-  let config = {
-    headers: {
-      Authorization: "Basic " + basicAuth,
-      "Content-type": "application/vnd.api+json",
-      Accept: "application/vnd.api+json"
-    }
-  };
-  for (let i = 0; i < idList.length; i++) {
-    axios
-      .get(
-        "https://api.bigcartel.com/v1/accounts/" +
-          userId +
-          "/products/" +
-          idList[i],
-        config
-      )
-      .then(function(response) {
+      console.log(idList);
+      var includedList = response.data.included.filter(
+        e => e.type == "product_options"
+      );
+      for (let i = 0; i < idList.length; i++) {
+        var obj = includedList.filter(e => e.id == idList[i]);
         var x = [
-          response.data.data.attributes.name,
-          response.data.included[0].attributes.quantity,
-          response.data.included[0].attributes.price,
-          response.data.included[0].attributes.sold
+          response.data.data[i].attributes.name,
+          obj[0].attributes.quantity,
+          obj[0].attributes.price,
+          obj[0].attributes.sold
         ];
         inventoryList.push(x);
-        callback(inventoryList);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  }
+      }
+      callback(inventoryList);
+    })
+    .catch(function(error) {
+      console.log("an error! oh no!");
+      console.log(error);
+    });
 }
 
 app.listen(port, () => console.log("listening! server started"));
