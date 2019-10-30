@@ -1,15 +1,6 @@
 import React from "react";
 import DataTable from "./DataTable";
 
-// import {
-//   useTable,
-//   useGroupBy,
-//   useFilters,
-//   useSortBy,
-//   useExpanded,
-//   usePagination
-// } from "react-table";
-
 class Inventory extends React.Component {
   render() {
     const headings = ["Item", "Count", "Price", "Cost", "Profit"];
