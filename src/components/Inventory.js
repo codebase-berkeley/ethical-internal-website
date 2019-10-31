@@ -6,17 +6,16 @@ class Inventory extends React.Component {
   constructor() {
     super();
     this.state = {
-      output: []
+      api_rows: []
     };
   }
 
   async componentDidMount() {
     var that = this;
     axios
-      .get("http://localhost:2999/inventory")
+      .get("http://localhost:3001/inventory")
       .then(function(response) {
-        that.setState({ output: response.data });
-        console.log(response);
+        that.setState({ api_rows: response.data });
       })
       .catch(function(error) {
         console.log(error);
@@ -24,16 +23,14 @@ class Inventory extends React.Component {
   }
 
   render() {
-    if (this.state.output !== []) {
+    if (this.state.api_rows !== []) {
       const headings = ["Item", "Count", "Price", "Sold"];
-      console.log(this.state.output);
-      const api_rows = this.state.output;
 
       return (
         <div>
           <div className="Inventory">
             <h1>Inventory</h1>
-            <DataTable headings={headings} rows={api_rows} />
+            <DataTable headings={headings} rows={this.state.api_rows} />
           </div>
         </div>
       );
