@@ -4,9 +4,8 @@ const port = 3001;
 const cors = require("cors");
 const fetch = require("node-fetch");
 
-const userId = 3376787;
-const basicAuth =
-  "ZXRoaWNhbGFwcGFyZWwuYmlnY2FydGVsLmNvbTpFdGgxY0BsYVBlQHIwIWwyazEw";
+const userId = None;
+const basicAuth = None;
 
 app.use(cors());
 
