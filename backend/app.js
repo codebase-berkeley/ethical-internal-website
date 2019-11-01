@@ -3,6 +3,14 @@ const app = express();
 const port = 3001;
 const cors = require("cors");
 app.use(cors());
+const bodyParser = require("body-parser");
+const db = require("./orderquery");
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 
 app.get("/orders", function(req, res) {
   // Authorization
