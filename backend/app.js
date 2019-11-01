@@ -4,17 +4,22 @@ const port = 3001;
 const cors = require("cors");
 const fetch = require("node-fetch");
 
-const userId = None;
-const basicAuth = None;
+const userId = 3376787;
+const basicAuth =
+  "ZXRoaWNhbGFwcGFyZWwuYmlnY2FydGVsLmNvbTpFdGgxY0BsYVBlQHIwIWwyazEw";
 
 app.use(cors());
 
 app.get("/inventory", function(req, res) {
-  res.send(getId());
+  async function why() {
+    const response = await getId();
+    console.log(response);
+    return response;
+  }
+  res.send(why());
 });
 
 async function getId() {
-  let inventoryList = [];
   let idList = [];
 
   const response = await fetch(
@@ -28,20 +33,24 @@ async function getId() {
     }
   );
   const json = await response.json();
-  console.log(json);
-  for (let i = 0; i < json.data.length; i++) {
-    idList.push(json.data[i].relationships.options.data[0].id);
-  }
-  var includedList = json.included.filter(e => e.type == "product_options");
-  for (let i = 0; i < idList.length; i++) {
-    var obj = includedList.filter(e => e.id == idList[i]);
-    var x = [
-      json.data[i].attributes.name,
-      obj[0].attributes.quantity,
-      obj[0].attributes.price,
-      obj[0].attributes.sold
-    ];
-    inventoryList.push(x);
+  const inventoryList = await getInventory();
+  async function getInventory() {
+    let list = [];
+    for (let i = 0; i < json.data.length; i++) {
+      idList.push(json.data[i].relationships.options.data[0].id);
+    }
+    var includedList = json.included.filter(e => e.type == "product_options");
+    for (let i = 0; i < idList.length; i++) {
+      var obj = includedList.filter(e => e.id == idList[i]);
+      var x = [
+        json.data[i].attributes.name,
+        obj[0].attributes.quantity,
+        obj[0].attributes.price,
+        obj[0].attributes.sold
+      ];
+      list.push(x);
+    }
+    return list;
   }
   return inventoryList;
 }
