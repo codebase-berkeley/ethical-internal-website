@@ -12,7 +12,8 @@ app.use(
   })
 );
 
-app.get("/orders", function(req, res) {
+var fs = require("fs");
+app.get("/orders", function (req, res) {
   // Authorization
   fs.readFile("credentials.json", (err, content) => {
     if (err) return console.log("Error loading client secret file:", err);
@@ -30,11 +31,38 @@ app.get("/orders", function(req, res) {
     sheets.spreadsheets.values.get(
       {
         spreadsheetId: "1ZNnltFhQluexcZrwWpuaIlMLtDQTeAI2WsoRHWgmELg",
-        range: "A2:G"
+        range: "A2:H"
       },
       (err, response) => {
         if (err) return console.log("The API returned an error: " + err);
-        const rows = response.data.values;
+        //const rows = response.data.values;
+        const rows = [
+          ['9/21', 'aq', 'trev', '123', 's', 'shirt', '1', 'X'],
+          ["9/21", "sha", "parth", "124", "s", "shirt", "1"],
+          ["9/21", "bra", "ami", "125", "s", "shirt", "1", "X"],
+          ["9/21", "bra", "ami", "126", "s", "shirt", "1", "X"]
+        ];
+        for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+          if (rows[rowIndex].length != 8) {
+            rows[rowIndex].push(false);
+          } else {
+            rows[rowIndex][7] = true;
+          }
+          db.addOrder(rows[rowIndex][3], rows[rowIndex][5], rows[rowIndex][7]);
+        }
+        //change pickup value to be boolean
+        // for (rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+        //   db.addOrder(rows[rowIndex][3], rows[rowIndex][5], rows[rowIndex][8]);
+        //   //if just added, don't check pickup status
+        //   const pickUpStatus = db.checkAgainst(
+        //     rows[rowIndex][3],
+        //     rows[rowIndex][5]
+        //   );
+        //   if (pickUpStatus != rows[rowIndex][7]) {
+        //     rows[rowIndex][7] = pickUpStatus;
+        //   }
+        // }
+        //FIXME update rows (apply all the functions)
         if (rows.length) {
           res.send(rows);
         } else {
@@ -61,7 +89,6 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`));
  * @param {getEventsCallback} callback The callback for the authorized client.
  */
 
-const fs = require("fs");
 const readline = require("readline");
 const { google } = require("googleapis");
 // If modifying these scopes, delete token.json.
@@ -115,3 +142,5 @@ function getNewToken(oAuth2Client, callback) {
     });
   });
 }
+
+app.get("/ordersDB", db.getOrders);
