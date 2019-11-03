@@ -5,6 +5,7 @@ const cors = require("cors");
 app.use(cors());
 const bodyParser = require("body-parser");
 const db = require("./orderquery");
+const pg = require('pg');
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -37,10 +38,11 @@ app.get("/orders", function (req, res) {
         if (err) return console.log("The API returned an error: " + err);
         //const rows = response.data.values;
         const rows = [
-          ['9/21', 'aq', 'trev', '123', 's', 'shirt', '1', 'X'],
+          ["9/21", "aq", "trev", "123", "s", "shirt", "1", "X"],
           ["9/21", "sha", "parth", "124", "s", "shirt", "1"],
           ["9/21", "bra", "ami", "125", "s", "shirt", "1", "X"],
-          ["9/21", "bra", "ami", "126", "s", "shirt", "1", "X"]
+          ["9/21", "bra", "ami", "125", "s", "pants", "1", "X"],
+          ["9/21", "bra", "ami", "125", "s", "pants", "1", "X"]
         ];
         for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
           if (rows[rowIndex].length != 8) {
@@ -50,19 +52,26 @@ app.get("/orders", function (req, res) {
           }
           db.addOrder(rows[rowIndex][3], rows[rowIndex][5], rows[rowIndex][7]);
         }
-        //change pickup value to be boolean
-        // for (rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-        //   db.addOrder(rows[rowIndex][3], rows[rowIndex][5], rows[rowIndex][8]);
-        //   //if just added, don't check pickup status
-        //   const pickUpStatus = db.checkAgainst(
-        //     rows[rowIndex][3],
-        //     rows[rowIndex][5]
-        //   );
-        //   if (pickUpStatus != rows[rowIndex][7]) {
-        //     rows[rowIndex][7] = pickUpStatus;
+        for (var rowIndex2 = 0; rowIndex2 < rows.length; rowIndex2++) {
+          //if just added, don't check pickup status
+          db.checkAgainst(
+            rows[rowIndex2][3],
+            rows[rowIndex2][5],
+            rows,
+            rowIndex2
+          );
+          var resu = db.checkAgainst(
+            rows[rowIndex2][3],
+            rows[rowIndex2][5],
+            rows,
+            rowIndex2
+          );
+          // console.log("app:" + resu);
+        }
+        //   if (pickUpStatus != rows[rowIndex2][7]) {
+        //     rows[rowIndex2][7] = pickUpStatus;
         //   }
         // }
-        //FIXME update rows (apply all the functions)
         if (rows.length) {
           res.send(rows);
         } else {
