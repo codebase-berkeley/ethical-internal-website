@@ -3,9 +3,7 @@ const app = express();
 const port = 3001;
 const cors = require("cors");
 const fetch = require("node-fetch");
-
-const userId;
-const basicAuth;
+import { userId, basicAuth } from "./config";
 
 app.use(cors());
 
