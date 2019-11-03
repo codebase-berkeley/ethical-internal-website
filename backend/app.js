@@ -36,14 +36,14 @@ app.get("/orders", function (req, res) {
       },
       (err, response) => {
         if (err) return console.log("The API returned an error: " + err);
-        //const rows = response.data.values;
-        const rows = [
-          ["9/21", "aq", "trev", "123", "s", "shirt", "1", "X"],
-          ["9/21", "sha", "parth", "124", "s", "shirt", "1"],
-          ["9/21", "bra", "ami", "125", "s", "shirt", "1", "X"],
-          ["9/21", "bra", "ami", "125", "s", "pants", "1", "X"],
-          ["9/21", "bra", "ami", "125", "s", "pants", "1", "X"]
-        ];
+        const rows = response.data.values;
+        // const rows = [
+        //   ["9/21", "aq", "trev", "123", "s", "shirt", "1", "X"],
+        //   ["9/21", "sha", "parth", "124", "s", "shirt", "1"],
+        //   ["9/21", "bra", "ami", "125", "s", "shirt", "1", "X"],
+        //   ["9/21", "bra", "ami", "125", "s", "pants", "1", "X"],
+        //   ["9/21", "bra", "ami", "125", "s", "pants", "1", "X"]
+        // ];
         for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
           if (rows[rowIndex].length != 8) {
             rows[rowIndex].push(false);
