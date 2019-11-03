@@ -4,18 +4,13 @@ const port = 3001;
 const cors = require("cors");
 const fetch = require("node-fetch");
 
-const userId = None;
-const basicAuth = None;
+const userId;
+const basicAuth;
 
 app.use(cors());
 
 app.get("/inventory", function(req, res) {
-  async function why() {
-    const response = await getId();
-    console.log(response);
-    return response;
-  }
-  res.send(why());
+  getId().then(result => res.send(result));
 });
 
 async function getId() {
@@ -32,8 +27,8 @@ async function getId() {
     }
   );
   const json = await response.json();
-  const inventoryList = await getInventory();
   async function getInventory() {
+    console.log(json);
     let list = [];
     for (let i = 0; i < json.data.length; i++) {
       idList.push(json.data[i].relationships.options.data[0].id);
@@ -51,7 +46,7 @@ async function getId() {
     }
     return list;
   }
-  return inventoryList;
+  return await getInventory();
 }
 
 app.listen(port, () => console.log("listening! server started"));
