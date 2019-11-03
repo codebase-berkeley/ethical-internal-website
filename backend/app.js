@@ -1,8 +1,26 @@
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
 const port = 3001;
+const db = require("./queries");
 const cors = require("cors");
 app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get("/", function(req, res) {
+  res.json({ info: "Node.js, Express, and Postgres API" });
+});
+
+app.get("/announcements", db.getAllAnnouncements);
+app.get("/announcements/:id", db.getAnnouncement);
+app.post("/announcements", db.createAnnouncement);
+app.put("/announcements/:id", db.editAnnouncement);
+app.delete("/announcements/:id", db.deleteAnnouncement);
+
+app.listen(port, () => {
+  console.log(`running on port ${port}`);
+});
 
 app.get("/orders", function(req, res) {
   // Authorization
