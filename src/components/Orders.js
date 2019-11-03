@@ -39,7 +39,7 @@ class Orders extends React.Component {
     });
     return (
       <div className="Orders">
-        <Table arrayOfObjects={arrayOfObjects} />
+        <OrderDataTable arrayOfObjects={arrayOfObjects} />
       </div>
     );
   }
