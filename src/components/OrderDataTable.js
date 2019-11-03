@@ -1,34 +1,35 @@
 import * as React from "react";
 import "./OrderDataTable.css";
 import ReactTable from "react-table";
-import "react-table/react-table.css";
+//import "react-table/react-table.css";
 
 class OrderDataTable extends React.Component {
   render() {
-    console.log(this.props.arrayOfObjects);
     return (
       <div>
         <ReactTable
           data={this.props.arrayOfObjects}
           columns={[
             {
-              Header: "Pick Up Date",
+              Header: "",
               columns: [
                 {
                   id: "Pick Up Date",
                   Header: "Pick Up Date",
-                  accessor: row => {
-                    return row.PickUpDate.format("YYYY/MM/DD HH:mm:ss");
-                  },
+                  accessor: row => `${row.PickUpDate}`,
                   filterMethod: (filter, row) =>
-                    row._original.PickUpDate.startsWith(filter.value)
-                  /*{
-                      if (row.getMilliseconds() > filter.value.getMilliseconds())
-
-                        return true
-                        else:
-                        return else
-                    }*/
+                    //row._original.PickUpDate.startsWith(filter.value)
+                    {
+                      //console.log(row);
+                      if (
+                        Date.parse(row._original.PickUpDate) <=
+                        Date.parse(filter.value)
+                      )
+                        return true;
+                      else {
+                        return false;
+                      }
+                    }
                 }
               ]
             },
@@ -65,11 +66,17 @@ class OrderDataTable extends React.Component {
           ]}
           defaultSorted={[
             {
-              id: "PickUpData",
+              id: "Pick Up Date",
               desc: false
             }
           ]}
           filterable={true}
+          defaultFiltered={[
+            {
+              id: "Pick Up Date",
+              value: "12/31/2025"
+            }
+          ]}
           onFilteredChange={filtered => this.setState({ filtered })}
           defaultPageSize={20}
           className="-striped -highlight"
