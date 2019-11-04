@@ -1,12 +1,17 @@
-const { userName } = require("./config");
-const { userPassword } = require("./config");
+const {
+  userName,
+  userPassword,
+  userHost,
+  userDatabase,
+  userPort
+} = require("./config");
 const Pool = require("pg").Pool;
 const pool = new Pool({
   user: userName,
-  host: "localhost",
-  database: "ethical",
+  host: userHost,
+  database: userDatabase,
   password: userPassword,
-  port: 5432
+  port: userPort
 });
 
 const getAllAnnouncements = (req, res) => {
@@ -38,7 +43,6 @@ const getAnnouncement = (req, res) => {
 
 const createAnnouncement = (req, res) => {
   const { title, info } = req.body;
-  console.log([title, info]);
   pool.query(
     "INSERT INTO announcements (title, info) VALUES ($1, $2) RETURNING id",
     [title, info],
@@ -55,7 +59,6 @@ const createAnnouncement = (req, res) => {
 
 const editAnnouncement = (req, res) => {
   const id = parseInt(req.params.id);
-  console.log(id);
   const { title, info } = req.body;
 
   pool.query(
@@ -65,7 +68,6 @@ const editAnnouncement = (req, res) => {
       if (error) {
         throw error;
       }
-      console.log(results);
       res.status(200).send(`Announcement modified with ID: ${id}`);
     }
   );

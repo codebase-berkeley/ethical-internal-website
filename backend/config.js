@@ -4,5 +4,16 @@ const basicAuth =
 
 const userName = "me";
 const userPassword = "password";
+const userHost = "localhost";
+const userDatabase = "ethical";
+const userPort = 5432;
 
-module.exports = { userId, basicAuth, userName, userPassword };
+module.exports = {
+  userId,
+  basicAuth,
+  userName,
+  userPassword,
+  userHost,
+  userDatabase,
+  userPort
+};

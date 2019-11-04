@@ -18,10 +18,6 @@ app.post("/announcements", db.createAnnouncement);
 app.put("/announcements/:id", db.editAnnouncement);
 app.delete("/announcements/:id", db.deleteAnnouncement);
 
-app.listen(port, () => {
-  console.log(`running on port ${port}`);
-});
-
 app.get("/orders", function(req, res) {
   // Authorization
   fs.readFile("credentials.json", (err, content) => {
