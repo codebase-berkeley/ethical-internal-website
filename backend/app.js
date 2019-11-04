@@ -5,7 +5,7 @@ const cors = require("cors");
 app.use(cors());
 const bodyParser = require("body-parser");
 const db = require("./orderquery");
-const pg = require('pg');
+const pg = require("pg");
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -34,16 +34,9 @@ app.get("/orders", function (req, res) {
         spreadsheetId: "1ZNnltFhQluexcZrwWpuaIlMLtDQTeAI2WsoRHWgmELg",
         range: "A2:H"
       },
-      (err, response) => {
+      async (err, response) => {
         if (err) return console.log("The API returned an error: " + err);
         const rows = response.data.values;
-        // const rows = [
-        //   ["9/21", "aq", "trev", "123", "s", "shirt", "1", "X"],
-        //   ["9/21", "sha", "parth", "124", "s", "shirt", "1"],
-        //   ["9/21", "bra", "ami", "125", "s", "shirt", "1", "X"],
-        //   ["9/21", "bra", "ami", "125", "s", "pants", "1", "X"],
-        //   ["9/21", "bra", "ami", "125", "s", "pants", "1", "X"]
-        // ];
         for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
           if (rows[rowIndex].length != 8) {
             rows[rowIndex].push(false);
@@ -52,26 +45,13 @@ app.get("/orders", function (req, res) {
           }
           db.addOrder(rows[rowIndex][3], rows[rowIndex][5], rows[rowIndex][7]);
         }
-        for (var rowIndex2 = 0; rowIndex2 < rows.length; rowIndex2++) {
-          //if just added, don't check pickup status
-          db.checkAgainst(
-            rows[rowIndex2][3],
-            rows[rowIndex2][5],
-            rows,
-            rowIndex2
+        for (rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+          var pickUpStatus = await db.checkAgainst(
+            rows[rowIndex][3],
+            rows[rowIndex][5]
           );
-          var resu = db.checkAgainst(
-            rows[rowIndex2][3],
-            rows[rowIndex2][5],
-            rows,
-            rowIndex2
-          );
-          // console.log("app:" + resu);
+          rows[rowIndex][7] = pickUpStatus;
         }
-        //   if (pickUpStatus != rows[rowIndex2][7]) {
-        //     rows[rowIndex2][7] = pickUpStatus;
-        //   }
-        // }
         if (rows.length) {
           res.send(rows);
         } else {
@@ -151,5 +131,3 @@ function getNewToken(oAuth2Client, callback) {
     });
   });
 }
-
-app.get("/ordersDB", db.getOrders);

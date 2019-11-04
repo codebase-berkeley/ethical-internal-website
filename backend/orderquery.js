@@ -1,5 +1,4 @@
 const Pool = require("pg").Pool;
-var result = true;
 var fs = require("fs");
 var config = fs.readFileSync("config.json", "utf8");
 config = JSON.parse(config);
@@ -11,27 +10,26 @@ const pool = new Pool({
   port: config.port
 });
 
-const checkAgainst = (gsOrder, gsItem) => {
-  pool.query(
-    "SELECT picked_up FROM order_table WHERE order_number = $1 AND item = $2",
-    [gsOrder, gsItem],
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      // gsRows[gsIndex][7] = results.rows[0].picked_up;
-      result = results.rows[0].picked_up;
-      checkAgainstFunc(result);
-      // if (results.rows[0].picked_up != gsRows[gsIndex][7]) {
-      //   gsRows[gsIndex][7] = results.rows[0].picked_up;
-      // }
-    }
-  );
-};
+async function checkAgainst(gsOrder, gsItem) {
+  try {
+    const result = await pool.query(
+      "SELECT * FROM order_table WHERE order_number = $1 AND item = $2",
+      [gsOrder, gsItem]
+    );
+    return result.rows[0].picked_up;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
-function checkAgainstFunc(res) {
-  // console.log("checkFunc: " + res);
-  return res;
+async function rowCount() {
+  const result = await pool.query("SELECT COUNT(*) FROM order_table");
+  return result.rows[0]["count"];
+}
+
+async function newRowCount() {
+  const result = await pool.query("SELECT COUNT(*) FROM order_table");
+  return result.rows[0]["count"];
 }
 
 const addOrder = (gsOrder, gsItem, gsPickUp) => {
@@ -75,6 +73,6 @@ module.exports = {
   addOrder,
   updatePickUp,
   getOrders,
-  result,
-  checkAgainstFunc
+  rowCount,
+  newRowCount
 };
