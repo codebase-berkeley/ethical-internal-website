@@ -1,7 +1,0 @@
-{
-  "user": "elenachen",
-  "host": "localhost",
-  "database": "orders",
-  "password": "password",
-  "port": 5432
-}
