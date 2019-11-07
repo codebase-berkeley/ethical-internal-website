@@ -2,12 +2,23 @@ const express = require("express");
 const app = express();
 const port = 3001;
 const cors = require("cors");
+const readline = require("readline");
+const { google } = require("googleapis");
+var fs = require("fs");
+const bodyParser = require("body-parser");
+const ordersdb = require("./orderquery");
 app.use(cors());
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 
-app.get("/orders", function(req, res) {
+app.get("/orders", function (req, res) {
   // Authorization
   fs.readFile("credentials.json", (err, content) => {
-    if (err) return console.log("Error loading client secret file:", err);
+    if (err) console.log("Error loading client secret file:", err);
     // Authorize a client with credentials, then call the Google Sheets API.
     authorize(JSON.parse(content), getSheetsData);
   });
@@ -22,11 +33,26 @@ app.get("/orders", function(req, res) {
     sheets.spreadsheets.values.get(
       {
         spreadsheetId: "1ZNnltFhQluexcZrwWpuaIlMLtDQTeAI2WsoRHWgmELg",
-        range: "A2:G"
+        range: "A2:H"
       },
-      (err, response) => {
-        if (err) return console.log("The API returned an error: " + err);
+      async (err, response) => {
+        if (err) console.log("The API returned an error: " + err);
         const rows = response.data.values;
+        for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+          if (rows[rowIndex].length != 8) {
+            rows[rowIndex].push(false);
+          } else {
+            rows[rowIndex][7] = true;
+          }
+          ordersdb.addOrder(rows[rowIndex][3], rows[rowIndex][5], rows[rowIndex][7]);
+        }
+        for (rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+          var pickUpStatus = await ordersdb.checkAgainst(
+            rows[rowIndex][3],
+            rows[rowIndex][5]
+          );
+          rows[rowIndex][7] = pickUpStatus;
+        }
         if (rows.length) {
           res.send(rows);
         } else {
@@ -53,9 +79,6 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`));
  * @param {getEventsCallback} callback The callback for the authorized client.
  */
 
-const fs = require("fs");
-const readline = require("readline");
-const { google } = require("googleapis");
 // If modifying these scopes, delete token.json.
 const SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"];
 // The file token.json stores the user's access and refresh tokens, and is
