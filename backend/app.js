@@ -5,9 +5,9 @@ const cors = require("cors");
 const readline = require("readline");
 const { google } = require("googleapis");
 var fs = require("fs");
-app.use(cors());
 const bodyParser = require("body-parser");
 const ordersdb = require("./orderquery");
+app.use(cors());
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
