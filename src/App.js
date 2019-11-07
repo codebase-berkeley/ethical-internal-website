@@ -11,9 +11,9 @@ function App() {
     <div className="App">
       <NavigationBar />
       <Switch>
-        <Route component={Announcements} path="/announcements" />
         <Route component={Inventory} path="/inventory" />
         <Route component={Orders} path="/orders" />
+        <Route component={Announcements} path="/" />
       </Switch>
     </div>
   );

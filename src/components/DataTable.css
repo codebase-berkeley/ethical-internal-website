@@ -1,33 +1,36 @@
 .Table {
-  /* border: 1px solid #f4f6f8; */
   border-spacing: 0px;
   background: #fff;
   box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .HeaderRow {
   border: 1px solid #b8d64a;
+  padding: 2px;
   border-radius: 12px;
-  border-spacing: 0px;
+  border-spacing: 0 6px;
   background: #fff;
-  box-sizing: border-box;
 }
 
 .BodyRows {
-  /* border: 1px solid rgb(137, 141, 123); */
+  /*border: 1px solid rgb(137, 141, 123);
   border-radius: 12px;
-  border-spacing: 0px;
-  background: #fff;
-  box-sizing: border-box;
-  border-collapse: separate;
-  border-spacing: 0 15px;
+  border-spacing: 0 6px;*/
+  border-bottom: 1px dotted grey;
+  border: 1px dotted grey;
+  padding: 10px;
+  border-radius: 12px;
+  /*background: #fff;*/
 }
 
 .Cell {
-  border-top: 1px solid rgb(137, 141, 123);
-  border-bottom: 1px solid rgb(137, 141, 123);
-  padding: 4px;
+  padding: 1px;
   padding-left: 25px;
   padding-right: 120px;
-  text-align: left;
+  text-align: center;
+  width: 80px;
+
+  /*border: 5px;*/
 }
