@@ -24,11 +24,14 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+<<<<<<< HEAD
 #auth
 config.js
 
 #dev
 .vscode/launch.json
+=======
+>>>>>>> 716bc4840912f7dac5822c9d8f04b3776847f77a
 token.json
 credentials.json
 config.json
