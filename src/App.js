@@ -4,7 +4,7 @@ import Announcements from "./components/Announcements";
 import Inventory from "./components/Inventory";
 import Orders from "./components/Orders";
 import NavigationBar from "./components/NavigationBar";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 function App() {
   return (
