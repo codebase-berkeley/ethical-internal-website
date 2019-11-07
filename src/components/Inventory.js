@@ -16,18 +16,16 @@ class Inventory extends React.Component {
   }
 
   render() {
-    if (this.state.api_rows !== []) {
-      const headings = ["Item", "Count", "Price", "Sold"];
+    const headings = ["Item", "Count", "Price", "Sold"];
 
-      return (
-        <div>
-          <div className="Inventory">
-            <h1>Inventory</h1>
-            <DataTable headings={headings} rows={this.state.api_rows} />
-          </div>
+    return (
+      <div>
+        <div className="Inventory">
+          <h1>Inventory</h1>
+          <DataTable headings={headings} rows={this.state.api_rows} />
         </div>
-      );
-    }
+      </div>
+    );
   }
 }
 
