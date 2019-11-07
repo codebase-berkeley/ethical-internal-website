@@ -26,3 +26,6 @@ yarn-error.log*
 
 token.json
 credentials.json
+
+#auth
+config.js
