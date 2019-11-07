@@ -1,7 +1,6 @@
 import * as React from "react";
 import "./OrderDataTable.css";
 import ReactTable from "react-table";
-//import "react-table/react-table.css";
 
 class OrderDataTable extends React.Component {
   render() {
@@ -17,19 +16,16 @@ class OrderDataTable extends React.Component {
                   id: "Pick Up Date",
                   Header: "Pick Up Date",
                   accessor: row => `${row.PickUpDate}`,
-                  filterMethod: (filter, row) =>
-                    //row._original.PickUpDate.startsWith(filter.value)
-                    {
-                      //console.log(row);
-                      if (
-                        Date.parse(row._original.PickUpDate) <=
-                        Date.parse(filter.value)
-                      )
-                        return true;
-                      else {
-                        return false;
-                      }
+                  filterMethod: (filter, row) => {
+                    if (
+                      Date.parse(row._original.PickUpDate) <=
+                      Date.parse(filter.value)
+                    )
+                      return true;
+                    else {
+                      return false;
                     }
+                  }
                 }
               ]
             },

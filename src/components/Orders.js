@@ -1,5 +1,4 @@
 import React from "react";
-import "./Orders.css";
 import OrderDataTable from "./OrderDataTable";
 
 class Orders extends React.Component {
