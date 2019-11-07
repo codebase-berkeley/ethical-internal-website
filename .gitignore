@@ -29,3 +29,6 @@ config.js
 
 #dev
 .vscode/launch.json
+token.json
+credentials.json
+config.json

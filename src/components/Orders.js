@@ -1,66 +1,45 @@
 import React from "react";
-import "./Orders.css";
-import DataTable from "./DataTable";
-
-// import {
-//   useTable,
-//   useGroupBy,
-//   useFilters,
-//   useSortBy,
-//   useExpanded,
-//   usePagination
-// } from "react-table";
-
-// function Table({ columns, data }) {
-//   // Use the state and functions returned from useTable to build your UI
-//   const {
-//     getTableProps,
-//     getTableBodyProps,
-//     headerGroups,
-//     rows,
-//     prepareRow,
-//   } = useTable({
-//     columns,
-//   })}
-
-//   const columns = React.useMemo(
-//     () => [
-//       {
-//         Header: 'Orders',
-//         columns: [
-//           {
-//             Header: 'Name',
-//             accessor: 'name',
-//           },
-//           {
-//             Header: 'Item',
-//             accessor: 'item',
-//           },
-//           {
-//             Header: 'Quantity',
-//             accessor: 'quantity',
-//           },
-//           {
-//             Header: 'Size',
-//             accessor: 'size',
-//           },
-//         ],
-//       }
-//     ],
-//     []
-//   )
+import OrderDataTable from "./OrderDataTable";
 
 class Orders extends React.Component {
-  render() {
-    const headings = ["Name", "Item", "Quantity", "Size"];
+  constructor() {
+    super();
+    this.state = {
+      orderRows: []
+    };
+  }
+  async componentDidMount() {
+    const response = await fetch("http://localhost:3001/orders");
+    const json = await response.json();
+    this.setState({ orderRows: json.map(elem => elem) });
+  }
 
-    const rows = [
-      ["Trevor Aquino", "The Shirt", 2, "M"],
-      ["Parth Shah", "The Other Shirt", 1, "L"]
+  render() {
+    const headings = [
+      "Pick Up Date",
+      "Last",
+      "First",
+      "Order#",
+      "Size/Style",
+      "Item Ordered",
+      "Item Quantity"
     ];
+
+    var arrayOfObjects = this.state.orderRows.map(function(item) {
+      return {
+        PickUpDate: item[0],
+        Last: item[1],
+        First: item[2],
+        Order: item[3],
+        SizeOrStyle: item[4],
+        ItemOrdered: item[5],
+        ItemQuantity: item[6]
+      };
+    });
     return (
       <div className="Orders">
-        <DataTable headings={headings} rows={rows} />
+        <h1 className="header"> Orders </h1>
+        <OrderDataTable arrayOfObjects={arrayOfObjects} />
       </div>
     );
   }
