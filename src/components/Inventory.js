@@ -21,7 +21,7 @@ class Inventory extends React.Component {
     return (
       <div>
         <div className="Inventory">
-          <h1>Inventory</h1>
+          <h1 className="header">Inventory</h1>
           <DataTable headings={headings} rows={this.state.api_rows} />
         </div>
       </div>

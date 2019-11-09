@@ -4,8 +4,18 @@ const port = 3001;
 const cors = require("cors");
 const fetch = require("node-fetch");
 const { userId, basicAuth } = require("./config");
-
+const readline = require("readline");
+const { google } = require("googleapis");
+var fs = require("fs");
+const bodyParser = require("body-parser");
+const ordersdb = require("./orderquery");
 app.use(cors());
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 
 app.get("/inventory", function(req, res) {
   getId().then(result => res.send(result));
@@ -46,19 +56,6 @@ async function getInventory(idList, json) {
   }
   return list;
 }
-
-const readline = require("readline");
-const { google } = require("googleapis");
-var fs = require("fs");
-const bodyParser = require("body-parser");
-const ordersdb = require("./orderquery");
-app.use(cors());
-app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true
-  })
-);
 
 app.get("/orders", function(req, res) {
   // Authorization
