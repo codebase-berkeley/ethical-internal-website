@@ -1,6 +1,5 @@
 import React from "react";
-import "./Orders.css";
-import DataTable from "./DataTable";
+import OrderDataTable from "./OrderDataTable";
 
 class Orders extends React.Component {
   constructor() {
@@ -26,9 +25,21 @@ class Orders extends React.Component {
       "Item Quantity"
     ];
 
+    var arrayOfObjects = this.state.orderRows.map(function(item) {
+      return {
+        PickUpDate: item[0],
+        Last: item[1],
+        First: item[2],
+        Order: item[3],
+        SizeOrStyle: item[4],
+        ItemOrdered: item[5],
+        ItemQuantity: item[6]
+      };
+    });
     return (
       <div className="Orders">
-        <DataTable headings={headings} rows={this.state.orderRows} />
+        <h1 className="header"> Orders </h1>
+        <OrderDataTable arrayOfObjects={arrayOfObjects} />
       </div>
     );
   }
