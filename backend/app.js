@@ -1,21 +1,17 @@
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
 const port = 3001;
+const db = require("./AnnouncementsQueries");
 const cors = require("cors");
 const fetch = require("node-fetch");
 const { userId, basicAuth } = require("./config");
 const readline = require("readline");
 const { google } = require("googleapis");
 var fs = require("fs");
-const bodyParser = require("body-parser");
 const ordersdb = require("./orderquery");
 app.use(cors());
 app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true
-  })
-);
 
 app.get("/inventory", async function(req, res) {
   res.send(await getId());
@@ -56,6 +52,19 @@ async function getInventory(idList, json) {
   }
   return list;
 }
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get("/", function(req, res) {
+  res.json({ info: "Node.js, Express, and Postgres API" });
+});
+
+app.get("/announcements", db.getAllAnnouncements);
+app.get("/announcements/:id", db.getAnnouncement);
+app.post("/announcements", db.createAnnouncement);
+app.put("/announcements/:id", db.editAnnouncement);
+app.delete("/announcements/:id", db.deleteAnnouncement);
+
 
 app.get("/orders", function(req, res) {
   // Authorization
