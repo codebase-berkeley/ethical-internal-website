@@ -1,28 +1,22 @@
 import React from "react";
 import Post from "./Post";
 
-const postValues = [
-  {
-    title: "New Inventory",
-    date: "10/17/19",
-    content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-    id: 1
-  },
-
-  {
-    title: "New Application",
-    date: "10/20/19",
-    content: "Finding New Members. Application is now open.",
-    id: 2
-  }
-];
-
 class Announcements extends React.Component {
+  constructor() {
+    super();
+    this.state = { postValues: [] };
+  }
+
+  async componentDidMount() {
+    const response = await fetch("http://localhost:3001/announcements");
+    const json = await response.json();
+    this.setState({ postValues: json });
+  }
+
   render() {
     return (
       <div className="Announcements-section">
-        {postValues.map(item => (
+        {this.state.postValues.map(item => (
           <Post key={item.id} {...item} />
         ))}
       </div>
