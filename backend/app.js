@@ -13,7 +13,7 @@ const ordersdb = require("./orderquery");
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get("/inventory", async function(req, res) {
+app.get("/inventory", async function (req, res) {
   res.send(await getId());
 });
 
@@ -55,7 +55,7 @@ async function getInventory(idList, json) {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   res.json({ info: "Node.js, Express, and Postgres API" });
 });
 
@@ -66,7 +66,7 @@ app.put("/announcements/:id", db.editAnnouncement);
 app.delete("/announcements/:id", db.deleteAnnouncement);
 
 
-app.get("/orders", function(req, res) {
+app.get("/orders", function (req, res) {
   // Authorization
   fs.readFile("credentials.json", (err, content) => {
     if (err) console.log("Error loading client secret file:", err);
@@ -88,7 +88,9 @@ app.get("/orders", function(req, res) {
       },
       async (err, response) => {
         if (err) console.log("The API returned an error: " + err);
+        // Assigns rows to order data from Google Sheets
         const rows = response.data.values;
+        // Iterates through rows to apply database operations (adding, updating)
         for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
           if (rows[rowIndex].length != 8) {
             rows[rowIndex].push(false);
