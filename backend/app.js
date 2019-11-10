@@ -17,8 +17,8 @@ app.use(
   })
 );
 
-app.get("/inventory", function(req, res) {
-  getId().then(result => res.send(result));
+app.get("/inventory", async function(req, res) {
+  res.send(await getId());
 });
 
 async function getId() {
