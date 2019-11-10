@@ -4,12 +4,54 @@ const bodyParser = require("body-parser");
 const port = 3001;
 const db = require("./AnnouncementsQueries");
 const cors = require("cors");
+const fetch = require("node-fetch");
+const { userId, basicAuth } = require("./config");
 const readline = require("readline");
 const { google } = require("googleapis");
 var fs = require("fs");
 const ordersdb = require("./orderquery");
 app.use(cors());
 app.use(bodyParser.json());
+
+app.get("/inventory", async function(req, res) {
+  res.send(await getId());
+});
+
+async function getId() {
+  let idList = [];
+
+  const response = await fetch(
+    "https://api.bigcartel.com/v1/accounts/" + userId + "/products",
+    {
+      headers: {
+        Authorization: "Basic " + basicAuth,
+        "Content-type": "application/vnd.api+json",
+        Accept: "application/vnd.api+json"
+      }
+    }
+  );
+  const json = await response.json();
+  return await getInventory(idList, json);
+}
+
+async function getInventory(idList, json) {
+  let list = [];
+  for (let i = 0; i < json.data.length; i++) {
+    idList.push(json.data[i].relationships.options.data[0].id);
+  }
+  var includedList = json.included.filter(e => e.type == "product_options");
+  for (let i = 0; i < idList.length; i++) {
+    var obj = includedList.filter(e => e.id == idList[i]);
+    var x = [
+      json.data[i].attributes.name,
+      obj[0].attributes.quantity,
+      obj[0].attributes.price,
+      obj[0].attributes.sold
+    ];
+    list.push(x);
+  }
+  return list;
+}
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -22,6 +64,7 @@ app.get("/announcements/:id", db.getAnnouncement);
 app.post("/announcements", db.createAnnouncement);
 app.put("/announcements/:id", db.editAnnouncement);
 app.delete("/announcements/:id", db.deleteAnnouncement);
+
 
 app.get("/orders", function(req, res) {
   // Authorization
