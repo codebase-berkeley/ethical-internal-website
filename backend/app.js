@@ -1,29 +1,21 @@
 const express = require("express");
 const app = express();
-const bodyParser = require("body-parser");
 const port = 3001;
-const db = require("./AnnouncementsQueries");
 const cors = require("cors");
 const readline = require("readline");
 const { google } = require("googleapis");
 var fs = require("fs");
+const bodyParser = require("body-parser");
 const ordersdb = require("./orderquery");
 app.use(cors());
 app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.get("/", function(req, res) {
-  res.json({ info: "Node.js, Express, and Postgres API" });
-});
-
-app.get("/announcements", db.getAllAnnouncements);
-app.get("/announcements/:id", db.getAnnouncement);
-app.post("/announcements", db.createAnnouncement);
-app.put("/announcements/:id", db.editAnnouncement);
-app.delete("/announcements/:id", db.deleteAnnouncement);
-
-app.get("/orders", function(req, res) {
+app.get("/orders", function (req, res) {
   // Authorization
   fs.readFile("credentials.json", (err, content) => {
     if (err) console.log("Error loading client secret file:", err);
@@ -52,11 +44,7 @@ app.get("/orders", function(req, res) {
           } else {
             rows[rowIndex][7] = true;
           }
-          ordersdb.addOrder(
-            rows[rowIndex][3],
-            rows[rowIndex][5],
-            rows[rowIndex][7]
-          );
+          ordersdb.addOrder(rows[rowIndex][3], rows[rowIndex][5], rows[rowIndex][7]);
         }
         for (rowIndex = 0; rowIndex < rows.length; rowIndex++) {
           var pickUpStatus = await ordersdb.checkAgainst(
