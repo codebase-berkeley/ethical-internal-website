@@ -13,7 +13,7 @@ const ordersdb = require("./orderquery");
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get("/inventory", async function (req, res) {
+app.get("/inventory", async function(req, res) {
   res.send(await getId());
 });
 
@@ -37,25 +37,42 @@ async function getId() {
 async function getInventory(idList, json) {
   let list = [];
   for (let i = 0; i < json.data.length; i++) {
-    idList.push(json.data[i].relationships.options.data[0].id);
+    //idList.push(json.data[i].relationships.options.data[0].id);
+    let nestedDataLength = json.data[i].relationships.options.data.length;
+    for (let n = 0; n < nestedDataLength; n++) {
+      idList.push(json.data[i].relationships.options.data[n].id);
+    }
   }
   var includedList = json.included.filter(e => e.type == "product_options");
   for (let i = 0; i < idList.length; i++) {
     var obj = includedList.filter(e => e.id == idList[i]);
+
+    /*if (obj[0].attributes.name == "Default") {
+      name = json.data[i].attributes.name;
+    } else {
+      name = obj[0].attributes.name;
+    }*/
+
     var x = [
-      json.data[i].attributes.name,
+      /* [
+        obj[0].attributes[i].name == "Default"
+          ? json.data[i].attributes.name
+          : obj[0].attributes.name
+      ],*/
+      obj[0].attributes.name,
+      //json.data[i].attributes.name,
       obj[0].attributes.quantity,
       obj[0].attributes.price,
       obj[0].attributes.sold
     ];
-    list.push(x);
+    list.push(obj[0].attributes.name);
   }
   return list;
 }
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/", function (req, res) {
+app.get("/", function(req, res) {
   res.json({ info: "Node.js, Express, and Postgres API" });
 });
 
@@ -65,8 +82,7 @@ app.post("/announcements", db.createAnnouncement);
 app.put("/announcements/:id", db.editAnnouncement);
 app.delete("/announcements/:id", db.deleteAnnouncement);
 
-
-app.get("/orders", function (req, res) {
+app.get("/orders", function(req, res) {
   // Authorization
   fs.readFile("credentials.json", (err, content) => {
     if (err) console.log("Error loading client secret file:", err);
