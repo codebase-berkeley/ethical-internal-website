@@ -48,25 +48,25 @@ async function getInventory(idList, json) {
     var obj = includedList.filter(e => e.id == idList[i]);
 
     /*if (obj[0].attributes.name == "Default") {
-      name = json.data[i].attributes.name;
-    } else {
-      name = obj[0].attributes.name;
+      obj[0].attributes.name = json.date[i].attributes.name;
     }*/
 
     var x = [
-      /* [
-        obj[0].attributes[i].name == "Default"
-          ? json.data[i].attributes.name
-          : obj[0].attributes.name
-      ],*/
       obj[0].attributes.name,
       //json.data[i].attributes.name,
       obj[0].attributes.quantity,
       obj[0].attributes.price,
       obj[0].attributes.sold
     ];
-    list.push(obj[0].attributes.name);
+    list.push(x);
   }
+  for (let i = 0; i < json.data.length; i++) {
+    if (list[i][0] == "Default") {
+      list[i][0] = json.data[i].attributes.name;
+    }
+  }
+
+  console.log(list[0][0]);
   return list;
 }
 
