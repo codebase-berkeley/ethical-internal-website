@@ -21,7 +21,9 @@ async function getId() {
   let idList = [];
 
   const response = await fetch(
-    "https://api.bigcartel.com/v1/accounts/" + userId + "/products",
+    "https://api.bigcartel.com/v1/accounts/" +
+      userId +
+      "/products?page%5Blimit%5D=100",
     {
       headers: {
         Authorization: "Basic " + basicAuth,
@@ -97,6 +99,8 @@ async function getInventory(idList, json) {
     ];
     list.push(y);
   }
+  console.log(multiProductList.length);
+  console.log(singleProductList.length);
 
   return list;
 }
