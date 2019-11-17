@@ -38,14 +38,6 @@ async function getId() {
 
 async function getInventory(idList, json) {
   let list = [];
-  for (let i = 0; i < json.data.length; i++) {
-    //idList.push(json.data[i].relationships.options.data[0].id);
-    let nestedDataLength = json.data[i].relationships.options.data.length;
-    for (let n = 0; n < nestedDataLength; n++) {
-      idList.push(json.data[i].relationships.options.data[n].id);
-    }
-  }
-
   var singleProductList = json.data.filter(
     item => item.relationships.options.data.length == 1
   );
@@ -87,7 +79,6 @@ async function getInventory(idList, json) {
     list.push(x);
   }
 
-  //singlelist
   for (let i = 0; i < singleProductIdName.length; i++) {
     var singleObj = includedList.filter(e => e.id == singleProductIdName[i][0]);
     var y = [
@@ -99,9 +90,6 @@ async function getInventory(idList, json) {
     ];
     list.push(y);
   }
-  console.log(multiProductList.length);
-  console.log(singleProductList.length);
-
   return list;
 }
 
