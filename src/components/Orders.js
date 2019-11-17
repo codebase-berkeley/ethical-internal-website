@@ -15,16 +15,6 @@ class Orders extends React.Component {
   }
 
   render() {
-    const headings = [
-      "Pick Up Date",
-      "Last",
-      "First",
-      "Order#",
-      "Size/Style",
-      "Item Ordered",
-      "Item Quantity"
-    ];
-
     var arrayOfObjects = this.state.orderRows.map(function(item) {
       return {
         PickUpDate: item[0],
