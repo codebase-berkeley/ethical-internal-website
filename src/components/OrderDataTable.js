@@ -58,6 +58,11 @@ class OrderDataTable extends React.Component {
               Header: "Item Quantity",
               accessor: "ItemQuantity",
               filterable: false
+            },
+            {
+              Header: "Pickup Status",
+              accessor: "PickupStatus",
+              filterable: false
             }
           ]}
           defaultSorted={[

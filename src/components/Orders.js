@@ -1,5 +1,6 @@
 import React from "react";
 import OrderDataTable from "./OrderDataTable";
+import Checkbox from "./Checkbox";
 
 class Orders extends React.Component {
   constructor() {
@@ -8,10 +9,11 @@ class Orders extends React.Component {
       orderRows: []
     };
   }
+
   async componentDidMount() {
     const response = await fetch("http://localhost:3001/orders");
     const json = await response.json();
-    this.setState({ orderRows: json.map(elem => elem) });
+    this.setState({ orderRows: json.map(elem => elem), checked: false });
   }
 
   render() {
@@ -22,10 +24,12 @@ class Orders extends React.Component {
       "Order#",
       "Size/Style",
       "Item Ordered",
-      "Item Quantity"
+      "Item Quantity",
+      "Picked Up?"
     ];
 
     var arrayOfObjects = this.state.orderRows.map(function(item) {
+      item.checkbox = new Checkbox(item[7]);
       return {
         PickUpDate: item[0],
         Last: item[1],
@@ -33,9 +37,11 @@ class Orders extends React.Component {
         Order: item[3],
         SizeOrStyle: item[4],
         ItemOrdered: item[5],
-        ItemQuantity: item[6]
+        ItemQuantity: item[6],
+        PickupStatus: item.checkbox.render()
       };
     });
+
     return (
       <div className="Orders">
         <h1 className="header"> Orders </h1>
