@@ -30,14 +30,32 @@ class OrderDataTable extends React.Component {
               ]
             },
             {
-              Header: "Last Name",
-              accessor: "Last",
-              filterable: false
+              Header: "",
+              columns: [
+                {
+                  id: "Last",
+                  Header: "Last Name",
+                  accessor: row => `${row.Last}`,
+                  filterMethod: (filter, row) =>
+                    row._original.Last.toLowerCase().startsWith(
+                      filter.value.toLowerCase()
+                    )
+                }
+              ]
             },
             {
-              Header: "First Name",
-              accessor: "First",
-              filterable: false
+              Header: "",
+              columns: [
+                {
+                  id: "First",
+                  Header: "First Name",
+                  accessor: row => `${row.First}`,
+                  filterMethod: (filter, row) =>
+                    row._original.First.toLowerCase().startsWith(
+                      filter.value.toLowerCase()
+                    )
+                }
+              ]
             },
             {
               Header: "Orders",
