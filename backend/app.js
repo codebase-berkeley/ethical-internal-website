@@ -13,7 +13,7 @@ const ordersdb = require("./orderquery");
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get("/inventory", async function (req, res) {
+app.get("/inventory", async function(req, res) {
   res.send(await getId());
 });
 
@@ -55,7 +55,7 @@ async function getInventory(idList, json) {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/", function (req, res) {
+app.get("/", function(req, res) {
   res.json({ info: "Node.js, Express, and Postgres API" });
 });
 
@@ -65,8 +65,7 @@ app.post("/announcements", db.createAnnouncement);
 app.put("/announcements/:id", db.editAnnouncement);
 app.delete("/announcements/:id", db.deleteAnnouncement);
 
-
-app.get("/orders", function (req, res) {
+app.get("/orders", function(req, res) {
   // Authorization
   fs.readFile("credentials.json", (err, content) => {
     if (err) console.log("Error loading client secret file:", err);
