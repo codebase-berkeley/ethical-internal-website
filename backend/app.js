@@ -38,35 +38,59 @@ async function getId() {
 
 async function getInventory(idList, json) {
   let list = [];
-  var singleProductList = json.data.filter(
+
+  //this singleProdInfos creates and array for all the data of single type products
+  var singleProdInfos = json.data.filter(
     item => item.relationships.options.data.length == 1
   );
 
-  var singleProductIdName = [];
-  for (let i = 0; i < singleProductList.length; i++) {
-    singleProductIdName.push([
-      singleProductList[i].relationships.options.data[0].id,
-      singleProductList[i].attributes.name
+  var singleProductIDAndName = [];
+  //this singleProductIDAndName creates an array that contains all the Products' IDs and Names
+  for (let i = 0; i < singleProdInfos.length; i++) {
+    singleProductIDAndName.push([
+      singleProdInfos[i].relationships.options.data[0].id,
+      singleProdInfos[i].attributes.name
     ]);
   }
 
-  var multiProductIdName = [];
-  var multiProductList = json.data.filter(
+  /*this includedList creates an array all of the product IDs in included.json and we use 
+  that to match with the IDs in singleProductIDAndName array and from there create a new 
+  nested arrays that contains the product name, quantity, price, and how many are sold.*/
+  var includedList = json.included.filter(e => e.type == "product_options");
+  for (let i = 0; i < singleProductIDAndName.length; i++) {
+    var singleObj = includedList.filter(
+      e => e.id == singleProductIDAndName[i][0]
+    );
+    var y = [
+      singleProductIDAndName[i][1],
+      singleObj[0].attributes.quantity,
+      singleObj[0].attributes.price,
+      singleObj[0].attributes.sold
+    ];
+    list.push(y); //we push that y array into the list array
+  }
+
+  //this multiProdInfos creates and array for all the data of single type products
+  var multiProductInfo = json.data.filter(
     item => item.relationships.options.data.length != 1
   );
-  for (let i = 0; i < multiProductList.length; i++) {
-    let nestedDataLength2 =
-      multiProductList[i].relationships.options.data.length;
-    for (let n = 0; n < nestedDataLength2; n++) {
-      //idList.push(json.data[i].relationships.options.data[n].id);
+
+  var multiProductIdName = [];
+  //this multiProductIDAndName creates an array that contains all the Products' IDs and Names
+  for (let i = 0; i < multiProductInfo.length; i++) {
+    let multiProductInfoDataLength =
+      multiProductInfo[i].relationships.options.data.length;
+    for (let n = 0; n < multiProductInfoDataLength; n++) {
       multiProductIdName.push([
-        multiProductList[i].relationships.options.data[n].id,
-        multiProductList[i].attributes.name
+        multiProductInfo[i].relationships.options.data[n].id,
+        multiProductInfo[i].attributes.name
       ]);
     }
   }
 
-  var includedList = json.included.filter(e => e.type == "product_options");
+  /*we use the the includedList array to match with the IDs in multiProductIDAndName array 
+  and from there create a new nested arrays that contains the product name, quantity, price,
+  and how many are sold.*/
   for (let i = 0; i < multiProductIdName.length; i++) {
     var multiObj = includedList.filter(e => e.id == multiProductIdName[i][0]);
     var x = [
@@ -76,20 +100,9 @@ async function getInventory(idList, json) {
       multiObj[0].attributes.price,
       multiObj[0].attributes.sold
     ];
-    list.push(x);
+    list.push(x); //we push that x array into the list array
   }
 
-  for (let i = 0; i < singleProductIdName.length; i++) {
-    var singleObj = includedList.filter(e => e.id == singleProductIdName[i][0]);
-    var y = [
-      singleProductIdName[i][1],
-      //json.data[i].attributes.name,
-      singleObj[0].attributes.quantity,
-      singleObj[0].attributes.price,
-      singleObj[0].attributes.sold
-    ];
-    list.push(y);
-  }
   return list;
 }
 
