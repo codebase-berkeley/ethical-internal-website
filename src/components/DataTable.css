@@ -1,36 +1,52 @@
-.Table {
-  border-spacing: 0px;
-  background: #fff;
-  box-sizing: border-box;
-  margin-left: auto;
-  margin-right: auto;
+@import url("https://fonts.googleapis.com/css?family=Karla&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Lilita+One&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Fredericka+the+Great|Fugaz+One|Gochi+Hand|Oleo+Script|Pacifico&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Paytone+One&display=swap");
+
+.Inventory {
+  font-family: 'Paytone One', sans-serif;
+  font-size: x-large;
+  color: rgb(80, 80, 80);
+  background-image: ;
 }
 
-.HeaderRow {
-  border: 1px solid #b8d64a;
-  padding: 2px;
-  border-radius: 12px;
-  border-spacing: 0 6px;
-  background: #fff;
+.Orders {
+  font-family: 'Paytone One', sans-serif;
+  font-size: x-large;
+  color: rgb(80, 80, 80);
 }
 
-.BodyRows {
-  /*border: 1px solid rgb(137, 141, 123);
-  border-radius: 12px;
-  border-spacing: 0 6px;*/
-  border-bottom: 1px dotted grey;
-  border: 1px dotted grey;
+.ReactTable .rt-thead.-header {
+  font-family: 'Karla', sans-serif;
+  font-size: 22px;
+  font-weight: bold;
+  background: rgba(141, 195, 77, 0.3)
+}
+
+.ReactTable {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   padding: 10px;
-  border-radius: 12px;
-  /*background: #fff;*/
+  font-family: 'Karla', sans-serif;
+  font-size: 22px;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  
 }
 
-.Cell {
-  padding: 1px;
-  padding-left: 25px;
-  padding-right: 120px;
-  text-align: center;
-  width: 80px;
+.ReactTable {
+  line-height: 45px;
+}
 
-  /*border: 5px;*/
+.ReactTable.-highlight .rt-tbody .rt-tr:hover {
+  background-color: rgba(198, 216, 45, 0.1) !important;
+}
+
+.ReactTable.-striped .rt-tr.-odd {
+  background: rgba(0, 0, 0, 0.03) !important;
 }

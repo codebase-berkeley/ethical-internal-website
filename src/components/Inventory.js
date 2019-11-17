@@ -1,5 +1,6 @@
 import React from "react";
 import DataTable from "./DataTable";
+import "./DataTable.css";
 
 class Inventory extends React.Component {
   constructor() {
@@ -16,14 +17,18 @@ class Inventory extends React.Component {
   }
 
   render() {
-    const headings = ["Item", "Count", "Price", "Sold"];
-
+    var arrayOfObjects = this.state.api_rows.map(function (item) {
+      return {
+        Item: item[0],
+        Count: item[1],
+        Price: item[2],
+        Sold: item[3]
+      };
+    });
     return (
-      <div>
-        <div className="Inventory">
-          <h1 className="header">Inventory</h1>
-          <DataTable headings={headings} rows={this.state.api_rows} />
-        </div>
+      <div className="Inventory">
+        <h1 className="header"> INVENTORY </h1>
+        <DataTable arrayOfObjects={arrayOfObjects} />
       </div>
     );
   }
