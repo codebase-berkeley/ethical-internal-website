@@ -43,30 +43,61 @@ async function getInventory(idList, json) {
       idList.push(json.data[i].relationships.options.data[n].id);
     }
   }
-  var includedList = json.included.filter(e => e.type == "product_options");
-  for (let i = 0; i < idList.length; i++) {
-    var obj = includedList.filter(e => e.id == idList[i]);
 
-    /*if (obj[0].attributes.name == "Default") {
-      obj[0].attributes.name = json.date[i].attributes.name;
-    }*/
+  var singleProductList = json.data.filter(
+    item => item.relationships.options.data.length == 1
+  );
 
-    var x = [
-      obj[0].attributes.name,
-      //json.data[i].attributes.name,
-      obj[0].attributes.quantity,
-      obj[0].attributes.price,
-      obj[0].attributes.sold
-    ];
-    list.push(x);
+  var singleProductIdName = [];
+  for (let i = 0; i < singleProductList.length; i++) {
+    singleProductIdName.push([
+      singleProductList[i].relationships.options.data[0].id,
+      singleProductList[i].attributes.name
+    ]);
   }
-  for (let i = 0; i < json.data.length; i++) {
-    if (list[i][0] == "Default") {
-      list[i][0] = json.data[i].attributes.name;
+
+  var multiProductIdName = [];
+  var multiProductList = json.data.filter(
+    item => item.relationships.options.data.length != 1
+  );
+  for (let i = 0; i < multiProductList.length; i++) {
+    let nestedDataLength2 =
+      multiProductList[i].relationships.options.data.length;
+    for (let n = 0; n < nestedDataLength2; n++) {
+      //idList.push(json.data[i].relationships.options.data[n].id);
+      multiProductIdName.push([
+        multiProductList[i].relationships.options.data[n].id,
+        multiProductList[i].attributes.name
+      ]);
     }
   }
 
-  console.log(list[0][0]);
+  var includedList = json.included.filter(e => e.type == "product_options");
+  for (let i = 0; i < multiProductIdName.length; i++) {
+    var multiObj = includedList.filter(e => e.id == multiProductIdName[i][0]);
+    var x = [
+      multiProductIdName[i][1] + " (" + multiObj[0].attributes.name + ")",
+      //json.data[i].attributes.name,
+      multiObj[0].attributes.quantity,
+      multiObj[0].attributes.price,
+      multiObj[0].attributes.sold
+    ];
+    list.push(x);
+  }
+
+  //singlelist
+  for (let i = 0; i < singleProductIdName.length; i++) {
+    var singleObj = includedList.filter(e => e.id == singleProductIdName[i][0]);
+    var y = [
+      singleProductIdName[i][1],
+      //json.data[i].attributes.name,
+      singleObj[0].attributes.quantity,
+      singleObj[0].attributes.price,
+      singleObj[0].attributes.sold
+    ];
+    list.push(y);
+  }
+
   return list;
 }
 
