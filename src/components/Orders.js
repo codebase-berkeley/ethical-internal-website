@@ -25,7 +25,7 @@ class Orders extends React.Component {
       "Item Quantity"
     ];
 
-    var arrayOfObjects = this.state.orderRows.map(function(item) {
+    var arrayOfObjects = this.state.orderRows.map(function (item) {
       return {
         PickUpDate: item[0],
         Last: item[1],
@@ -37,8 +37,8 @@ class Orders extends React.Component {
       };
     });
     return (
-      <div className="Orders">
-        <h1 className="header"> Orders </h1>
+      <div className="header">
+        <h1 className="orders"> ORDERS </h1>
         <OrderDataTable arrayOfObjects={arrayOfObjects} />
       </div>
     );

@@ -26,8 +26,8 @@ class Inventory extends React.Component {
       };
     });
     return (
-      <div className="Inventory">
-        <h1 className="header"> INVENTORY </h1>
+      <div className="header">
+        <h1 className="Inventory"> INVENTORY </h1>
         <DataTable arrayOfObjects={arrayOfObjects} />
       </div>
     );

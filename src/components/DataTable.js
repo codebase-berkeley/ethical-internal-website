@@ -8,15 +8,22 @@ class DataTable extends React.Component {
       <div>
         <ReactTable
           data={this.props.arrayOfObjects}
+          filterable
+          defaultFilterMethod={(filter, row) =>
+            String(row[filter.id]) === filter.value
+          }
           columns={[
             {
-              Header: "",
-              columns: []
-            },
-            {
-              Header: "Item",
-              accessor: "Item",
-              filterable: false
+              columns: [
+                {
+                  id: "Item",
+                  Header: "Item",
+                  accessor: row => `${row.Item}`,
+                  filterMethod: (filter, row) => {
+                    return row._original.Item.startsWith(filter.value);
+                  }
+                }
+              ]
             },
             {
               Header: "Count",
@@ -34,17 +41,11 @@ class DataTable extends React.Component {
               filterable: false
             }
           ]}
-          defaultSorted={[
-            {
-              id: "Pick Up Date",
-              desc: false
-            }
-          ]}
-          filterable={true}
+          searching={true}
           defaultFiltered={[
             {
-              id: "Pick Up Date",
-              value: "12/31/2025"
+              id: "Item",
+              value: ""
             }
           ]}
           onFilteredChange={filtered => this.setState({ filtered })}
