@@ -53,9 +53,11 @@ async function getInventory(idList, json) {
     ]);
   }
 
-  /*this includedList creates an array all of the product IDs in included.json and we use 
-  that to match with the IDs in singleProductIDAndName array and from there create a new 
-  nested arrays that contains the product name, quantity, price, and how many are sold.*/
+  /**
+   * this includedList creates an array all of the product IDs in included.json and we use
+   * that to match with the IDs in singleProductIDAndName array and from there create a new
+   * nested arrays that contains the product name, quantity, price, and how many are sold.
+   */
   var includedList = json.included.filter(e => e.type == "product_options");
   for (let i = 0; i < singleProductIDAndName.length; i++) {
     var singleObj = includedList.filter(
