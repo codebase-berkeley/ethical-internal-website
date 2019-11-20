@@ -29,7 +29,6 @@ class Orders extends React.Component {
     ];
 
     var arrayOfObjects = this.state.orderRows.map(function(item) {
-      item.checkbox = new Checkbox(item[7]);
       return {
         PickUpDate: item[0],
         Last: item[1],
@@ -38,7 +37,13 @@ class Orders extends React.Component {
         SizeOrStyle: item[4],
         ItemOrdered: item[5],
         ItemQuantity: item[6],
-        PickupStatus: item.checkbox.render()
+        PickupStatus: (
+          <Checkbox
+            pickUpStatus={item[7]}
+            orderNumber={item[3]}
+            item={item[5]}
+          />
+        )
       };
     });
 

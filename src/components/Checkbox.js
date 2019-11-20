@@ -1,22 +1,32 @@
 import React from "react";
 
 class Checkbox extends React.Component {
-  constructor(pickUpStatus) {
-    super();
-    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+  constructor(props) {
+    super(props);
     this.state = {
-      checked: pickUpStatus ? true : false
+      checked: props.pickUpStatus ? true : false
     };
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
   }
 
-  async componentDidMount() {
-    const response = await fetch("http://localhost:3001/orders");
-    const json = await response.json();
-    this.setState({ postValues: json });
+  async handleCheckboxChange() {
+    let response = fetch("http://localhost:3001/orders", {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        order_number: this.props.orderNumber,
+        item: this.props.item,
+        picked_up: !this.state.checked
+      })
+    });
+    await response;
+    this.setState(state => ({
+      checked: !state.checked
+    }));
   }
-
-  handleCheckboxChange = event =>
-    this.setState({ checked: event.target.checked });
 
   render() {
     return (
