@@ -17,6 +17,7 @@ app.get("/inventory", async function(req, res) {
   res.send(await getId());
 });
 
+//returns list of row objects corresponding to Inventory.js
 async function getId() {
   let idList = [];
 
@@ -39,7 +40,7 @@ async function getInventory(idList, json) {
   for (let i = 0; i < json.data.length; i++) {
     idList.push(json.data[i].relationships.options.data[0].id);
   }
-  var includedList = json.included.filter(e => e.type == "product_options");
+  var includedList = json.included.filter(e => e.type == "product_options"); //goes into embedded object which gives product details
   for (let i = 0; i < idList.length; i++) {
     var obj = includedList.filter(e => e.id == idList[i]);
     var x = [
@@ -48,7 +49,7 @@ async function getInventory(idList, json) {
       obj[0].attributes.price,
       obj[0].attributes.sold
     ];
-    list.push(x);
+    list.push(x); //adds row object to list of rows for Inventory.js to render
   }
   return list;
 }
@@ -59,6 +60,7 @@ app.get("/", function(req, res) {
   res.json({ info: "Node.js, Express, and Postgres API" });
 });
 
+//frontend makes requests to express endpoint AnnouncementQueries.js
 app.get("/announcements", db.getAllAnnouncements);
 app.get("/announcements/:id", db.getAnnouncement);
 app.post("/announcements", db.createAnnouncement);
