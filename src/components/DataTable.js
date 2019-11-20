@@ -1,60 +1,61 @@
 import * as React from "react";
-import Cell from "./Cell";
 import "./DataTable.css";
+import ReactTable from "react-table";
 
-export default class DataTable extends React.Component {
-  renderHeadingRow(_cell, cellIndex) {
-    const { headings } = this.props;
-
-    return (
-      <Cell
-        key={`heading-${cellIndex}`}
-        content={headings[cellIndex]}
-        header={true}
-      />
-    );
-  }
-
-  renderRow(_row, rowIndex) {
-    const { rows } = this.props;
-
-    return (
-      <tr key={`row-${rowIndex}`}>
-        {rows[rowIndex].map((_cell, cellIndex) => {
-          return (
-            <Cell
-              key={`${rowIndex}-${cellIndex}`}
-              content={rows[rowIndex][cellIndex]}
-            />
-          );
-        })}
-      </tr>
-    );
-  }
-
+class DataTable extends React.Component {
   render() {
-    const { headings, rows } = this.props;
-
-    this.renderHeadingRow = this.renderHeadingRow.bind(this);
-    this.renderRow = this.renderRow.bind(this);
-
-    const theadMarkup = (
-      <tr key="heading">{headings.map(this.renderHeadingRow)}</tr>
-    );
-
-    const tbodyMarkup = <tr key="body">{rows.map(this.renderRow)}</tr>;
-
     return (
       <div>
-        <table className="Table">
-          <div className="HeaderRow">
-            <thead>{theadMarkup}</thead>
-          </div>
-          <div className="BodyRows">
-            <tbody>{tbodyMarkup}</tbody>
-          </div>
-        </table>
+        <ReactTable
+          data={this.props.arrayOfObjects}
+          filterable
+          defaultFilterMethod={(filter, row) =>
+            String(row[filter.id]) === filter.value
+          }
+          columns={[
+            {
+              columns: [
+                {
+                  id: "Item",
+                  Header: "Item",
+                  accessor: row => `${row.Item}`,
+                  filterMethod: (filter, row) => {
+                    return row._original.Item.startsWith(filter.value);
+                  }
+                }
+              ]
+            },
+            {
+              Header: "Count",
+              accessor: "Count",
+              filterable: false
+            },
+            {
+              Header: "Price",
+              accessor: "Price",
+              filterable: false
+            },
+            {
+              Header: "Sold",
+              accessor: "Sold",
+              filterable: false
+            }
+          ]}
+          searching={true}
+          defaultFiltered={[
+            {
+              id: "Item",
+              value: ""
+            }
+          ]}
+          onFilteredChange={filtered => this.setState({ filtered })}
+          defaultPageSize={20}
+          className="-striped -highlight"
+        />
+        <br />
       </div>
     );
   }
 }
+
+export default DataTable;
