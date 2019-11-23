@@ -5,15 +5,40 @@ const port = 3001;
 const db = require("./AnnouncementsQueries");
 const cors = require("cors");
 const fetch = require("node-fetch");
-const { userId, basicAuth } = require("./config");
+const { userId, basicAuth, loginPassword, access_token } = require("./config");
 const readline = require("readline");
 const { google } = require("googleapis");
 var fs = require("fs");
 const ordersdb = require("./orderquery");
+const bcryptjs = require("bcryptjs");
 app.use(cors());
 app.use(bodyParser.json());
+const withAuth = require("./middleware");
 
-app.get("/inventory", async function(req, res) {
+// app.get("/checkToken", withAuth, function(req, res) {
+//   res.sendStatus(200);
+// });
+
+/*
+ * express endpoint to verify password. password attempt is hashed and
+ * then compared with the hashed version of the actual password.
+ */
+
+app.get("/login/:hashedAttempt", withAuth, async function(req, res) {
+  const { hashedAttempt } = req.body;
+  res.send(await getAccessToken(hashedAttempt));
+});
+
+async function getAccessToken(hashedAttempt) {
+  if (hashedAttempt == bcryptjs.hash(loginPassword)) {
+    return JSON.stringify({ token: access_token, correctPassword: true });
+  } else {
+    return JSON.stringify({ token: "", correctPassword: false });
+  }
+}
+
+//express endpoint to bigcartel api
+app.get("/inventory", withAuth, async function(req, res) {
   res.send(await getId());
 });
 
@@ -56,18 +81,18 @@ async function getInventory(idList, json) {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/", function(req, res) {
+app.get("/", withAuth, function(req, res) {
   res.json({ info: "Node.js, Express, and Postgres API" });
 });
 
 //frontend makes requests to express endpoint AnnouncementQueries.js
-app.get("/announcements", db.getAllAnnouncements);
-app.get("/announcements/:id", db.getAnnouncement);
-app.post("/announcements", db.createAnnouncement);
-app.put("/announcements/:id", db.editAnnouncement);
-app.delete("/announcements/:id", db.deleteAnnouncement);
+app.get("/announcements", withAuth, db.getAllAnnouncements);
+app.get("/announcements/:id", withAuth, db.getAnnouncement);
+app.post("/announcements", withAuth, db.createAnnouncement);
+app.put("/announcements/:id", withAuth, db.editAnnouncement);
+app.delete("/announcements/:id", withAuth, db.deleteAnnouncement);
 
-app.get("/orders", function(req, res) {
+app.get("/orders", withAuth, function(req, res) {
   // Authorization
   fs.readFile("credentials.json", (err, content) => {
     if (err) console.log("Error loading client secret file:", err);
