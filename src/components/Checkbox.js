@@ -10,18 +10,20 @@ class Checkbox extends React.Component {
   }
 
   async handleCheckboxChange() {
-    let response = fetch("http://localhost:3001/orders", {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        order_number: this.props.orderNumber,
-        item: this.props.item,
-        picked_up: !this.state.checked
-      })
-    });
+    let response = fetch(
+      "http://localhost:3001/orders/" + this.props.orderNumber,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          item: this.props.item,
+          picked_up: !this.state.checked
+        })
+      }
+    );
     await response;
     this.setState(state => ({
       checked: !state.checked

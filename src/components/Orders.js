@@ -13,7 +13,7 @@ class Orders extends React.Component {
   async componentDidMount() {
     const response = await fetch("http://localhost:3001/orders");
     const json = await response.json();
-    this.setState({ orderRows: json.map(elem => elem), checked: false });
+    this.setState({ orderRows: json.map(elem => elem) });
   }
 
   render() {
@@ -39,6 +39,7 @@ class Orders extends React.Component {
         ItemQuantity: item[6],
         PickupStatus: (
           <Checkbox
+            key={item[3]}
             pickUpStatus={item[7]}
             orderNumber={item[3]}
             item={item[5]}

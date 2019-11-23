@@ -38,7 +38,8 @@ const addOrder = (gsOrder, gsItem, gsPickUp) => {
 
 // Updates the pick up status in the database when the checkbox is clicked on the website
 const updatePickUp = (request, response) => {
-  const { order_number, item, picked_up } = request.body;
+  const order_number = request.params.orderId;
+  const { item, picked_up } = request.body;
   pool.query(
     "UPDATE order_table SET picked_up = $1 WHERE order_number = $2 AND item = $3",
     [picked_up, order_number, item],
