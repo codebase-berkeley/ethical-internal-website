@@ -17,6 +17,7 @@ app.get("/inventory", async function(req, res) {
   res.send(await getId());
 });
 
+//returns list of row objects corresponding to Inventory.js
 async function getId() {
   let idList = [];
 
@@ -70,6 +71,7 @@ async function getInventory(idList, json) {
       singleObj[0].attributes.sold
     ];
     list.push(singleProductDisplayInfo); //we push that singleProductDisplayInfo array into the list array
+
   }
 
   //this multiProdInfos creates and array for all the data of single type products
@@ -116,12 +118,15 @@ app.get("/", function(req, res) {
   res.json({ info: "Node.js, Express, and Postgres API" });
 });
 
+//express endpoint makes requests to AnnouncementQueries.js
 app.get("/announcements", db.getAllAnnouncements);
 app.get("/announcements/:id", db.getAnnouncement);
 app.post("/announcements", db.createAnnouncement);
 app.put("/announcements/:id", db.editAnnouncement);
 app.delete("/announcements/:id", db.deleteAnnouncement);
 
+//express endpoint makes requests to orderquery.js
+app.put("/orders/:orderId", ordersdb.updatePickUp);
 app.get("/orders", function(req, res) {
   // Authorization
   fs.readFile("credentials.json", (err, content) => {

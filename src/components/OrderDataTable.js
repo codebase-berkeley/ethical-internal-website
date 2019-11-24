@@ -30,14 +30,32 @@ class OrderDataTable extends React.Component {
               ]
             },
             {
-              Header: "Last Name",
-              accessor: "Last",
-              filterable: false
+              Header: "",
+              columns: [
+                {
+                  id: "Last",
+                  Header: "Last Name",
+                  accessor: row => `${row.Last}`,
+                  filterMethod: (filter, row) =>
+                    row._original.Last.toLowerCase().startsWith(
+                      filter.value.toLowerCase()
+                    )
+                }
+              ]
             },
             {
-              Header: "First Name",
-              accessor: "First",
-              filterable: false
+              Header: "",
+              columns: [
+                {
+                  id: "First",
+                  Header: "First Name",
+                  accessor: row => `${row.First}`,
+                  filterMethod: (filter, row) =>
+                    row._original.First.toLowerCase().startsWith(
+                      filter.value.toLowerCase()
+                    )
+                }
+              ]
             },
             {
               Header: "Orders",
@@ -58,6 +76,23 @@ class OrderDataTable extends React.Component {
               Header: "Item Quantity",
               accessor: "ItemQuantity",
               filterable: false
+            },
+            {
+              Header: "Pickup Status",
+              accessor: "PickupStatus",
+              filterable: false,
+              sortMethod: (a, b) => {
+                a = a.props.pickUpStatus ? 1 : -1;
+                b = b.props.pickUpStatus ? 1 : -1;
+                if (a > b) {
+                  return 1;
+                }
+                if (b > a) {
+                  return -1;
+                } else {
+                  return 0;
+                }
+              }
             }
           ]}
           defaultSorted={[
