@@ -51,9 +51,6 @@ class Login extends Component {
 
     const json = await response.json();
     this.setState({ access_token: json.token, validity: json.correctPassword });
-    console.log("after fetching");
-    // console.log(hash);
-    console.log(cookieParser.token);
     if (!this.state.validity) {
       alert("Wrong password");
     } else {

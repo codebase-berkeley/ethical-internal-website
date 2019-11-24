@@ -30,21 +30,13 @@ app.get("/checkToken", withAuth, function(req, res) {
 app.post("/login/", async function(req, res) {
   const { hashedAttempt } = req.body;
   res.send(await getAccessToken(hashedAttempt));
-  console.log("cookies: ", req.cookies);
   res.cookies("token", access_token, { httpOnly: true });
-  console.log("cookies: ", req.cookies);
 });
 
 async function getAccessToken(hashedAttempt) {
-  console.log("this is hashed attempt inside getAccessToken");
-  console.log(hashedAttempt);
-  console.log("this is the token we want");
-  console.log(access_token);
   if (await bcryptjs.compare(loginPassword, hashedAttempt)) {
-    console.log("ha! they're the same!");
     return JSON.stringify({ token: access_token, correctPassword: true });
   } else {
-    console.log("boo, you whore");
     return JSON.stringify({ token: "", correctPassword: false });
   }
 }
