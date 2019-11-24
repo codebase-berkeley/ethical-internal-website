@@ -10,11 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "googleapis": "^44.0.0",
     "node-fetch": "^2.6.0",
-    "pg": "^7.12.1",
-    "googleapis": "^44.0.0"
+    "pg": "^7.12.1"
   },
   "devDependencies": {
     "nodemon": "^1.19.4"

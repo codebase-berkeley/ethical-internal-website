@@ -53,23 +53,23 @@ async function getInventory(idList, json) {
     ]);
   }
 
-  /**
-   * this includedList creates an array all of the product IDs in included.json and we use
-   * that to match with the IDs in singleProductIDAndName array and from there create a new
-   * nested arrays that contains the product name, quantity, price, and how many are sold.
-   */
+  /*
+  this includedList creates an array all of the product IDs in included.json and we use
+  that to match with the IDs in singleProductIDAndName array and from there create a new
+  nested arrays that contains the product name, quantity, price, and how many are sold.
+  */
   var includedList = json.included.filter(e => e.type == "product_options");
   for (let i = 0; i < singleProductIDAndName.length; i++) {
     var singleObj = includedList.filter(
       e => e.id == singleProductIDAndName[i][0]
     );
-    var y = [
+    var singleProductDisplayInfo = [
       singleProductIDAndName[i][1],
       singleObj[0].attributes.quantity,
       singleObj[0].attributes.price,
       singleObj[0].attributes.sold
     ];
-    list.push(y); //we push that y array into the list array
+    list.push(singleProductDisplayInfo); //we push that singleProductDisplayInfo array into the list array
   }
 
   //this multiProdInfos creates and array for all the data of single type products
@@ -90,19 +90,21 @@ async function getInventory(idList, json) {
     }
   }
 
-  /*we use the the includedList array to match with the IDs in multiProductIDAndName array 
+  /*
+  we use the the includedList array to match with the IDs in multiProductIDAndName array
   and from there create a new nested arrays that contains the product name, quantity, price,
-  and how many are sold.*/
+  and how many are sold.
+  */
   for (let i = 0; i < multiProductIdName.length; i++) {
     var multiObj = includedList.filter(e => e.id == multiProductIdName[i][0]);
-    var x = [
+    var multiProductDisplayInfo = [
       multiProductIdName[i][1] + " (" + multiObj[0].attributes.name + ")",
       //json.data[i].attributes.name,
       multiObj[0].attributes.quantity,
       multiObj[0].attributes.price,
       multiObj[0].attributes.sold
     ];
-    list.push(x); //we push that x array into the list array
+    list.push(multiProductDisplayInfo); //we push that multiProductDisplayInfo array into the list array
   }
 
   return list;
@@ -128,11 +130,11 @@ app.get("/orders", function(req, res) {
     authorize(JSON.parse(content), getSheetsData);
   });
 
-  /**
-   * Prints the order information from EthiCal's Google Sheet:
-   * @see https://docs.google.com/spreadsheets/d/1ZNnltFhQluexcZrwWpuaIlMLtDQTeAI2WsoRHWgmELg/edit#gid=0
-   * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
-   */
+  /*
+  Prints the order information from EthiCal's Google Sheet:
+  @see https://docs.google.com/spreadsheets/d/1ZNnltFhQluexcZrwWpuaIlMLtDQTeAI2WsoRHWgmELg/edit#gid=0
+  @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
+  */
   function getSheetsData(auth) {
     const sheets = google.sheets({ version: "v4", auth });
     sheets.spreadsheets.values.get(
@@ -176,25 +178,27 @@ app.get("/orders", function(req, res) {
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
-/**
- * Create an OAuth2 client with the given credentials, and then execute the
- * given callback function.
- * @param {Object} credentials The authorization client credentials.
- * @param {function} callback The callback to call with the authorized client.
- */
+/*
+Create an OAuth2 client with the given credentials, and then execute the
+given callback function.
+@param {Object} credentials The authorization client credentials.
+@param {function} callback The callback to call with the authorized client.
+*/
 
-/**
- * Get and store new token after prompting for user authorization, and then
- * execute the given callback with the authorized OAuth2 client.
- * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
- * @param {getEventsCallback} callback The callback for the authorized client.
- */
+/*
+Get and store new token after prompting for user authorization, and then
+execute the given callback with the authorized OAuth2 client.
+@param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
+@param {getEventsCallback} callback The callback for the authorized client.
+*/
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"];
-// The file token.json stores the user's access and refresh tokens, and is
-// created automatically when the authorization flow completes for the first
-// time.
+/* 
+The file token.json stores the user's access and refresh tokens, and is
+created automatically when the authorization flow completes for the first
+time
+*/
 const TOKEN_PATH = "token.json";
 
 function authorize(credentials, callback) {
