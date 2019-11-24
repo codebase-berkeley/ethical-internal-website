@@ -22,7 +22,9 @@ async function getId() {
   let idList = [];
 
   const response = await fetch(
-    "https://api.bigcartel.com/v1/accounts/" + userId + "/products",
+    "https://api.bigcartel.com/v1/accounts/" +
+      userId +
+      "/products?page%5Blimit%5D=100",
     {
       headers: {
         Authorization: "Basic " + basicAuth,
@@ -37,20 +39,76 @@ async function getId() {
 
 async function getInventory(idList, json) {
   let list = [];
-  for (let i = 0; i < json.data.length; i++) {
-    idList.push(json.data[i].relationships.options.data[0].id);
+
+  //this singleProdInfos creates and array for all the data of single type products
+  var singleProdInfos = json.data.filter(
+    item => item.relationships.options.data.length == 1
+  );
+
+  var singleProductIDAndName = [];
+  //this singleProductIDAndName creates an array that contains all the Products' IDs and Names
+  for (let i = 0; i < singleProdInfos.length; i++) {
+    singleProductIDAndName.push([
+      singleProdInfos[i].relationships.options.data[0].id,
+      singleProdInfos[i].attributes.name
+    ]);
   }
-  var includedList = json.included.filter(e => e.type == "product_options"); //goes into embedded object which gives product details
-  for (let i = 0; i < idList.length; i++) {
-    var obj = includedList.filter(e => e.id == idList[i]);
-    var x = [
-      json.data[i].attributes.name,
-      obj[0].attributes.quantity,
-      obj[0].attributes.price,
-      obj[0].attributes.sold
+
+  /*
+  this includedList creates an array all of the product IDs in included.json and we use
+  that to match with the IDs in singleProductIDAndName array and from there create a new
+  nested arrays that contains the product name, quantity, price, and how many are sold.
+  */
+  var includedList = json.included.filter(e => e.type == "product_options");
+  for (let i = 0; i < singleProductIDAndName.length; i++) {
+    var singleObj = includedList.filter(
+      e => e.id == singleProductIDAndName[i][0]
+    );
+    var singleProductDisplayInfo = [
+      singleProductIDAndName[i][1],
+      singleObj[0].attributes.quantity,
+      singleObj[0].attributes.price,
+      singleObj[0].attributes.sold
     ];
-    list.push(x); //adds row object to list of rows for Inventory.js to render
+    list.push(singleProductDisplayInfo); //we push that singleProductDisplayInfo array into the list array
+
   }
+
+  //this multiProdInfos creates and array for all the data of single type products
+  var multiProductInfo = json.data.filter(
+    item => item.relationships.options.data.length != 1
+  );
+
+  var multiProductIdName = [];
+  //this multiProductIDAndName creates an array that contains all the Products' IDs and Names
+  for (let i = 0; i < multiProductInfo.length; i++) {
+    let multiProductInfoDataLength =
+      multiProductInfo[i].relationships.options.data.length;
+    for (let n = 0; n < multiProductInfoDataLength; n++) {
+      multiProductIdName.push([
+        multiProductInfo[i].relationships.options.data[n].id,
+        multiProductInfo[i].attributes.name
+      ]);
+    }
+  }
+
+  /*
+  we use the the includedList array to match with the IDs in multiProductIDAndName array
+  and from there create a new nested arrays that contains the product name, quantity, price,
+  and how many are sold.
+  */
+  for (let i = 0; i < multiProductIdName.length; i++) {
+    var multiObj = includedList.filter(e => e.id == multiProductIdName[i][0]);
+    var multiProductDisplayInfo = [
+      multiProductIdName[i][1] + " (" + multiObj[0].attributes.name + ")",
+      //json.data[i].attributes.name,
+      multiObj[0].attributes.quantity,
+      multiObj[0].attributes.price,
+      multiObj[0].attributes.sold
+    ];
+    list.push(multiProductDisplayInfo); //we push that multiProductDisplayInfo array into the list array
+  }
+
   return list;
 }
 
@@ -77,11 +135,11 @@ app.get("/orders", function(req, res) {
     authorize(JSON.parse(content), getSheetsData);
   });
 
-  /**
-   * Prints the order information from EthiCal's Google Sheet:
-   * @see https://docs.google.com/spreadsheets/d/1ZNnltFhQluexcZrwWpuaIlMLtDQTeAI2WsoRHWgmELg/edit#gid=0
-   * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
-   */
+  /*
+  Prints the order information from EthiCal's Google Sheet:
+  @see https://docs.google.com/spreadsheets/d/1ZNnltFhQluexcZrwWpuaIlMLtDQTeAI2WsoRHWgmELg/edit#gid=0
+  @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
+  */
   function getSheetsData(auth) {
     const sheets = google.sheets({ version: "v4", auth });
     sheets.spreadsheets.values.get(
@@ -125,25 +183,27 @@ app.get("/orders", function(req, res) {
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
-/**
- * Create an OAuth2 client with the given credentials, and then execute the
- * given callback function.
- * @param {Object} credentials The authorization client credentials.
- * @param {function} callback The callback to call with the authorized client.
- */
+/*
+Create an OAuth2 client with the given credentials, and then execute the
+given callback function.
+@param {Object} credentials The authorization client credentials.
+@param {function} callback The callback to call with the authorized client.
+*/
 
-/**
- * Get and store new token after prompting for user authorization, and then
- * execute the given callback with the authorized OAuth2 client.
- * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
- * @param {getEventsCallback} callback The callback for the authorized client.
- */
+/*
+Get and store new token after prompting for user authorization, and then
+execute the given callback with the authorized OAuth2 client.
+@param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
+@param {getEventsCallback} callback The callback for the authorized client.
+*/
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"];
-// The file token.json stores the user's access and refresh tokens, and is
-// created automatically when the authorization flow completes for the first
-// time.
+/* 
+The file token.json stores the user's access and refresh tokens, and is
+created automatically when the authorization flow completes for the first
+time
+*/
 const TOKEN_PATH = "token.json";
 
 function authorize(credentials, callback) {

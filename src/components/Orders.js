@@ -17,6 +17,7 @@ class Orders extends React.Component {
   }
 
   render() {
+
     const headings = [
       "Pick Up Date",
       "Last",
