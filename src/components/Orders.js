@@ -1,5 +1,6 @@
 import React from "react";
 import OrderDataTable from "./OrderDataTable";
+const { token } = require("./Login");
 
 class Orders extends React.Component {
   constructor() {

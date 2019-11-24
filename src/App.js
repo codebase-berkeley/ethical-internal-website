@@ -3,8 +3,8 @@ import "./App.css";
 import Announcements from "./components/Announcements";
 import Inventory from "./components/Inventory";
 import Orders from "./components/Orders";
-import Login from "./components/Login";
 import { Route, Switch } from "react-router-dom";
+import Login from "./components/Login";
 
 function App() {
   return (

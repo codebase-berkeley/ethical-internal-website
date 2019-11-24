@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import ethicalLogo from "./ethical.png";
 import { jsxOpeningElement } from "@babel/types";
 const bcryptjs = require("bcryptjs");
+const fetch = require("node-fetch");
+const cookieParser = require("cookie-parser");
 
 // import { Link } from "react-router-dom";
 
@@ -22,7 +24,7 @@ class Login extends Component {
   };
 
   async hashPassword() {
-    const hash = await bcryptjs.hash(this.state.input, 10);
+    const hash = await bcryptjs.hash(this.state.input, 0);
     this.setState({ hash: hash });
     return this.state.hash;
   }
@@ -33,13 +35,25 @@ class Login extends Component {
   }
 
   async componentDidMount() {
-    let hash = await this.hashPassword();
-    console.log(hash);
-    const response = await fetch("http://localhost:3001/login/" + hash);
+    // let hash = await this.hashPassword();
+    // console.log("before fetching");
+    // console.log(hash);
+    const response = await fetch("http://localhost:3001/login/", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify({
+        hashedAttempt: await this.hashPassword()
+      })
+    });
+
     const json = await response.json();
-    this.setState({ access_token: json.token });
-    this.setState({ validity: json.correctPassword });
-    console.log(hash);
+    this.setState({ access_token: json.token, validity: json.correctPassword });
+    console.log("after fetching");
+    // console.log(hash);
+    console.log(cookieParser.token);
     if (!this.state.validity) {
       alert("Wrong password");
     } else {

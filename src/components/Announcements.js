@@ -1,5 +1,6 @@
 import React from "react";
 import Post from "./Post";
+const { token } = require("./Login");
 
 class Announcements extends React.Component {
   constructor() {

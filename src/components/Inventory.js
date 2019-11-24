@@ -1,5 +1,6 @@
 import React from "react";
 import DataTable from "./DataTable";
+const { token } = require("./Login");
 
 class Inventory extends React.Component {
   constructor() {
