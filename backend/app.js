@@ -13,6 +13,11 @@ const ordersdb = require("./orderquery");
 app.use(cors());
 app.use(bodyParser.json());
 
+console.log(`Your port is ${process.env.PORT}`); //undefined
+const dotenv = require("dotenv");
+dotenv.config();
+console.log(`Your port is ${process.env.PORT}`); //3000?
+
 app.get("/inventory", async function(req, res) {
   res.send(await getId());
 });
@@ -71,7 +76,6 @@ async function getInventory(idList, json) {
       singleObj[0].attributes.sold
     ];
     list.push(singleProductDisplayInfo); //we push that singleProductDisplayInfo array into the list array
-
   }
 
   //this multiProdInfos creates and array for all the data of single type products
