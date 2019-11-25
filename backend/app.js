@@ -1,3 +1,6 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -5,18 +8,15 @@ const port = 3001;
 const db = require("./AnnouncementsQueries");
 const cors = require("cors");
 const fetch = require("node-fetch");
-const { userId, basicAuth } = require("./config");
+//const { userId, basicAuth } = require("./config");
+const userId = process.env.userId;
+const basicAuth = process.env.basicAuth;
 const readline = require("readline");
 const { google } = require("googleapis");
 var fs = require("fs");
 const ordersdb = require("./orderquery");
 app.use(cors());
 app.use(bodyParser.json());
-
-console.log(`Your port is ${process.env.PORT}`); //undefined
-const dotenv = require("dotenv");
-dotenv.config();
-console.log(`Your port is ${process.env.PORT}`); //3000?
 
 app.get("/inventory", async function(req, res) {
   res.send(await getId());

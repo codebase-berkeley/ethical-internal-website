@@ -1,13 +1,30 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
 const Pool = require("pg").Pool;
-var fs = require("fs");
-var config = fs.readFileSync("config.json", "utf8");
-config = JSON.parse(config);
-const pool = new Pool({
+//var fs = require("fs");
+//var config = fs.readFileSync("config.json", "utf8");
+//config = JSON.parse(config);
+/*const pool = new Pool({
   user: config.user,
   host: config.host,
   database: config.database,
   password: config.password,
   port: config.port
+});*/
+
+const user = process.env.mentored;
+const host = process.env.host;
+const database = process.env.database;
+const password = process.env.password;
+const port = process.env.port;
+
+const pool = new Pool({
+  user: user,
+  host: host,
+  database: database,
+  password: password,
+  port: port
 });
 
 // Checks the pick up status of an order in the database

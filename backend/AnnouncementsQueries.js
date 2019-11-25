@@ -1,3 +1,12 @@
+require("dotenv").config();
+
+const userName = process.env.userName;
+const userPassword = process.env.userPassword;
+const userHost = process.env.userHost;
+const userDatabase = process.env.userDatabase;
+const userPort = process.env.userPort;
+
+/*
 const {
   userName,
   userPassword,
@@ -5,6 +14,8 @@ const {
   userDatabase,
   userPort
 } = require("./config");
+*/
+
 const Pool = require("pg").Pool;
 const pool = new Pool({
   user: userName,
