@@ -17,19 +17,11 @@ class Orders extends React.Component {
   }
 
   render() {
-
-    const headings = [
-      "Pick Up Date",
-      "Last",
-      "First",
-      "Order#",
-      "Size/Style",
-      "Item Ordered",
-      "Item Quantity",
-      "Picked Up?"
-    ];
-
-    var arrayOfObjects = this.state.orderRows.map(function (item) {
+    /*
+     this variable arrayOfObjects converts a nested array to an array of objects
+     since react table needed an array of objects as input.
+     */
+    var arrayOfObjects = this.state.orderRows.map(function(item) {
       return {
         PickUpDate: item[0],
         Last: item[1],
