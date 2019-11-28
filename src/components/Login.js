@@ -1,12 +1,9 @@
 import "./Login.css";
 import React, { Component } from "react";
 import ethicalLogo from "./ethical.png";
-import { jsxOpeningElement } from "@babel/types";
 const bcryptjs = require("bcryptjs");
 const fetch = require("node-fetch");
 const localStorage = require("local-storage");
-
-// import { Link } from "react-router-dom";
 
 class Login extends Component {
   constructor() {
@@ -34,10 +31,7 @@ class Login extends Component {
     this.props.history.push(path);
   }
 
-  async componentDidMount() {
-    // let hash = await this.hashPassword();
-    // console.log("before fetching");
-    // console.log(hash);
+  async buttonClick() {
     const response = await fetch("http://localhost:3001/login/", {
       method: "POST",
       headers: {
@@ -48,7 +42,6 @@ class Login extends Component {
         hashedAttempt: await this.hashPassword()
       })
     });
-
     const json = await response.json();
     this.setState({ access_token: json.token, validity: json.correctPassword });
     if (!this.state.validity) {
@@ -82,7 +75,7 @@ class Login extends Component {
             </label>
           </form>
           <button
-            onClick={() => this.componentDidMount()}
+            onClick={() => this.buttonClick()}
             id="button"
             type="submit"
             value="Login"

@@ -2,13 +2,11 @@ const { access_token } = require("./config");
 
 const withAuth = function(req, res, next) {
   const token = req.headers.authorization;
-  if (!token) {
-    res.status(401).send("Unauthorized: No token provided");
-  } else if (token == access_token) {
+  if (token == access_token) {
     next();
   } else {
-    res.status(401).send("Unauthorized: Invalid token");
-    next();
+    let path = "/login";
+    this.props.history.push(path);
   }
 };
 

@@ -3,18 +3,30 @@ import "./App.css";
 import Announcements from "./components/Announcements";
 import Inventory from "./components/Inventory";
 import Orders from "./components/Orders";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import Login from "./components/Login";
+import NavigationBar from "./components/NavigationBar";
 
 function App() {
   return (
     <div className="App">
       <div>
         <Switch>
-          <Route component={Inventory} path="/inventory" />
-          <Route component={Orders} path="/orders" />
-          <Route component={Announcements} path="/announcements" />
-          <Route component={Login} path="/" />
+          <Route path="/login" component={Login} />
+          <Redirect from exact="/" to="/login" />
+          {/* <Route component={Login} path="/login" /> */}
+          <Route path="/announcements">
+            <Route component={NavigationBar} path="/" />
+            <Route component={Announcements} path="/" />
+          </Route>
+          <Route path="/inventory">
+            <Route component={NavigationBar} path="/" />
+            <Route component={Inventory} path="/" />
+          </Route>
+          <Route path="/orders">
+            <Route component={NavigationBar} path="/" />
+            <Route component={Orders} path="/" />
+          </Route>
         </Switch>
       </div>
     </div>
