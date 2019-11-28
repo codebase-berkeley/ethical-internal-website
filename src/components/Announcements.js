@@ -1,6 +1,6 @@
 import React from "react";
 import Post from "./Post";
-const { token } = require("./Login");
+const localStorage = require("local-storage");
 
 class Announcements extends React.Component {
   constructor() {
@@ -9,7 +9,9 @@ class Announcements extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await fetch("http://localhost:3001/announcements");
+    const response = await fetch("http://localhost:3001/announcements", {
+      headers: { authorization: localStorage.get("token") }
+    });
     const json = await response.json();
     this.setState({ postValues: json });
   }

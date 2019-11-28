@@ -14,9 +14,6 @@ const bcryptjs = require("bcryptjs");
 app.use(cors());
 app.use(bodyParser.json());
 const withAuth = require("./middleware");
-const cookieParser = require("cookie-parser");
-
-app.use(cookieParser());
 
 app.get("/checkToken", withAuth, function(req, res) {
   res.sendStatus(200);
@@ -30,7 +27,6 @@ app.get("/checkToken", withAuth, function(req, res) {
 app.post("/login/", async function(req, res) {
   const { hashedAttempt } = req.body;
   res.send(await getAccessToken(hashedAttempt));
-  res.cookies("token", access_token, { httpOnly: true });
 });
 
 async function getAccessToken(hashedAttempt) {

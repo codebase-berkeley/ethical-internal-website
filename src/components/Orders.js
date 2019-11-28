@@ -1,6 +1,6 @@
 import React from "react";
 import OrderDataTable from "./OrderDataTable";
-const { token } = require("./Login");
+const localStorage = require("local-storage");
 
 class Orders extends React.Component {
   constructor() {
@@ -10,7 +10,9 @@ class Orders extends React.Component {
     };
   }
   async componentDidMount() {
-    const response = await fetch("http://localhost:3001/orders");
+    const response = await fetch("http://localhost:3001/orders", {
+      headers: { authorization: localStorage.get("token") }
+    });
     const json = await response.json();
     this.setState({ orderRows: json.map(elem => elem) });
   }

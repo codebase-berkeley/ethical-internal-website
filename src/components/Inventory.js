@@ -1,6 +1,6 @@
 import React from "react";
 import DataTable from "./DataTable";
-const { token } = require("./Login");
+const localStorage = require("local-storage");
 
 class Inventory extends React.Component {
   constructor() {
@@ -11,7 +11,9 @@ class Inventory extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await fetch("http://localhost:3001/inventory");
+    const response = await fetch("http://localhost:3001/inventory", {
+      headers: { authorization: localStorage.get("token") }
+    });
     const json = await response.json();
     this.setState({ api_rows: json });
   }

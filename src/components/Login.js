@@ -4,7 +4,7 @@ import ethicalLogo from "./ethical.png";
 import { jsxOpeningElement } from "@babel/types";
 const bcryptjs = require("bcryptjs");
 const fetch = require("node-fetch");
-const cookieParser = require("cookie-parser");
+const localStorage = require("local-storage");
 
 // import { Link } from "react-router-dom";
 
@@ -54,11 +54,9 @@ class Login extends Component {
     if (!this.state.validity) {
       alert("Wrong password");
     } else {
-      // // store access_token in local storage
+      localStorage.set("token", this.state.access_token);
       this.routeChange();
     }
-    // // proceed or error based on that response
-    console.log(this.state.input);
   }
 
   render() {
