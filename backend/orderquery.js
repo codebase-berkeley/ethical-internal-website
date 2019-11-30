@@ -13,6 +13,15 @@ const Pool = require("pg").Pool;
   port: config.port
 });*/
 
+/*const db = require("db");
+db.connect({
+  user: process.env.mentored,
+  host: process.env.userPassword,
+  database: process.env.database,
+  password: process.env.password,
+  port: process.env.port
+});*/
+
 const user = process.env.mentored;
 const host = process.env.host;
 const database = process.env.database;

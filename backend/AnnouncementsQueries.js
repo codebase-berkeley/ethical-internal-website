@@ -1,4 +1,12 @@
 require("dotenv").config();
+//const db = require("db");
+/*db.connect({
+  userName: process.env.userName,
+  userPassword: process.env.userPassword,
+  userHost: process.env.userHost,
+  userDatabase: process.env.userDatabase,
+  userPort: process.env.userPort
+});*/
 
 const userName = process.env.userName;
 const userPassword = process.env.userPassword;

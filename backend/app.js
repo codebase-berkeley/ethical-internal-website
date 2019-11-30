@@ -1,6 +1,12 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
+/*const db2 = require("db");
+db2.connect({
+  userId: process.env.userId,
+  basicAuth: process.env.basicAuth
+});*/
+
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
