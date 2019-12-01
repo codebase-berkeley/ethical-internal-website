@@ -1,3 +1,5 @@
+require("dotenv").config;
+
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -5,7 +7,8 @@ const port = 3001;
 const db = require("./AnnouncementsQueries");
 const cors = require("cors");
 const fetch = require("node-fetch");
-const { userId, basicAuth } = require("./config");
+const userId = process.env.userId;
+const basicAuth = process.env.basicAuth;
 const readline = require("readline");
 const { google } = require("googleapis");
 var fs = require("fs");
@@ -71,7 +74,6 @@ async function getInventory(idList, json) {
       singleObj[0].attributes.sold
     ];
     list.push(singleProductDisplayInfo); //we push that singleProductDisplayInfo array into the list array
-
   }
 
   //this multiProdInfos creates and array for all the data of single type products
