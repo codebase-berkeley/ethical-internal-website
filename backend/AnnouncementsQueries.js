@@ -1,36 +1,12 @@
 require("dotenv").config();
-//const db = require("db");
-/*db.connect({
-  userName: process.env.userName,
-  userPassword: process.env.userPassword,
-  userHost: process.env.userHost,
-  userDatabase: process.env.userDatabase,
-  userPort: process.env.userPort
-});*/
-
-const userName = process.env.userName;
-const userPassword = process.env.userPassword;
-const userHost = process.env.userHost;
-const userDatabase = process.env.userDatabase;
-const userPort = process.env.userPort;
-
-/*
-const {
-  userName,
-  userPassword,
-  userHost,
-  userDatabase,
-  userPort
-} = require("./config");
-*/
 
 const Pool = require("pg").Pool;
 const pool = new Pool({
-  user: userName,
-  host: userHost,
-  database: userDatabase,
-  password: userPassword,
-  port: userPort
+  user: process.env.userName,
+  host: process.env.userHost,
+  database: process.env.userDatabase,
+  password: process.env.userPassword,
+  port: process.env.userPort
 });
 
 const getAllAnnouncements = (req, res) => {
