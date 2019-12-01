@@ -1,11 +1,4 @@
-const dotenv = require("dotenv");
-dotenv.config();
-
-/*const db2 = require("db");
-db2.connect({
-  userId: process.env.userId,
-  basicAuth: process.env.basicAuth
-});*/
+require("dotenv").config;
 
 const express = require("express");
 const app = express();
@@ -14,7 +7,6 @@ const port = 3001;
 const db = require("./AnnouncementsQueries");
 const cors = require("cors");
 const fetch = require("node-fetch");
-//const { userId, basicAuth } = require("./config");
 const userId = process.env.userId;
 const basicAuth = process.env.basicAuth;
 const readline = require("readline");
