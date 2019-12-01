@@ -137,8 +137,6 @@ app.get("/orders", function (req, res) {
 
   /*
   Prints the order information from EthiCal's Google Sheet:
-  @see 11e8GJGUYKTF1vOoFihCLQGObMv1bUaIombMzCYGJFH8/edit#gid=773403747
-  @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
   */
   function getSheetsData(auth) {
     const sheets = google.sheets({ version: "v4", auth });
