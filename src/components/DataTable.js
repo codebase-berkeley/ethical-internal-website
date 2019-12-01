@@ -20,7 +20,9 @@ class DataTable extends React.Component {
                   Header: "Item",
                   accessor: row => `${row.Item}`,
                   filterMethod: (filter, row) => {
-                    return row._original.Item.startsWith(filter.value);
+                    return row._original.Item.toLowerCase().includes(
+                      filter.value
+                    );
                   }
                 }
               ]
