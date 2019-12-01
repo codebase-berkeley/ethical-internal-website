@@ -21,7 +21,7 @@ class DataTable extends React.Component {
                   accessor: row => `${row.Item}`,
                   filterMethod: (filter, row) => {
                     return row._original.Item.toLowerCase().includes(
-                      filter.value
+                      filter.value.toLowerCase()
                     );
                   }
                 }
