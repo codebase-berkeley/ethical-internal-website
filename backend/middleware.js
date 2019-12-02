@@ -5,7 +5,7 @@ const withAuth = function(req, res, next) {
   if (token == accessToken) {
     next();
   } else {
-    res.status === 401;
+    res.status = 401;
     res.send(res.status);
   }
 };
