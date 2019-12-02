@@ -32,7 +32,7 @@ class Login extends Component {
   }
 
   async buttonClick() {
-    const response = await fetch("http://localhost:3001/login/", {
+    const response = await fetch("http://localhost:3001/login", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -60,7 +60,7 @@ class Login extends Component {
           <img className="pic" src={ethicalLogo} alt="profile" />
         </div>
         <div className="hi">
-          <div>Welcome home EthiCal memebers, please log in below!</div>
+          <div>Welcome home EthiCal members, please log in below!</div>
         </div>
         <div className="login">
           <form>

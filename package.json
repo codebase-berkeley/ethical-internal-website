@@ -3,12 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "aws-sdk": "^2.578.0",
     "bcrypt": "^3.0.7",
     "bcryptjs": "^2.4.3",
-    "child_process": "^1.0.2",
-    "cookie-parser": "^1.4.4",
-    "fs": "0.0.1-security",
     "googleapis": "^39.2.0",
     "local-storage": "^2.0.0",
     "node-fetch": "^2.6.0",
@@ -18,8 +14,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "react-table": "^6.10.3",
-    "styled-components": "^4.4.0",
-    "tls": "0.0.1"
+    "styled-components": "^4.4.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -5,7 +5,7 @@ const port = 3001;
 const db = require("./AnnouncementsQueries");
 const cors = require("cors");
 const fetch = require("node-fetch");
-const { userId, basicAuth, loginPassword, access_token } = require("./config");
+const { userId, basicAuth, loginPassword, accessToken } = require("./config");
 const readline = require("readline");
 const { google } = require("googleapis");
 var fs = require("fs");
@@ -24,14 +24,14 @@ app.get("/checkToken", withAuth, function(req, res) {
  * then compared with the hashed version of the actual password.
  */
 
-app.post("/login/", async function(req, res) {
+app.post("/login", async function(req, res) {
   const { hashedAttempt } = req.body;
   res.send(await getAccessToken(hashedAttempt));
 });
 
 async function getAccessToken(hashedAttempt) {
   if (await bcryptjs.compare(loginPassword, hashedAttempt)) {
-    return JSON.stringify({ token: access_token, correctPassword: true });
+    return JSON.stringify({ token: accessToken, correctPassword: true });
   } else {
     return JSON.stringify({ token: "", correctPassword: false });
   }

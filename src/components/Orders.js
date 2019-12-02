@@ -14,6 +14,10 @@ class Orders extends React.Component {
       headers: { authorization: localStorage.get("token") }
     });
     const json = await response.json();
+    if (response.status === 401) {
+      let path = "/login";
+      this.props.history.push(path);
+    }
     this.setState({ orderRows: json.map(elem => elem) });
   }
 

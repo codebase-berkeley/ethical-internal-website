@@ -13,8 +13,6 @@ function App() {
       <div>
         <Switch>
           <Route path="/login" component={Login} />
-          <Redirect from exact="/" to="/login" />
-          {/* <Route component={Login} path="/login" /> */}
           <Route path="/announcements">
             <Route component={NavigationBar} path="/" />
             <Route component={Announcements} path="/" />
@@ -27,6 +25,7 @@ function App() {
             <Route component={NavigationBar} path="/" />
             <Route component={Orders} path="/" />
           </Route>
+          <Redirect from exact="/" to="/login" />
         </Switch>
       </div>
     </div>

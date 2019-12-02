@@ -1,12 +1,12 @@
-const { access_token } = require("./config");
+const { accessToken } = require("./config");
 
 const withAuth = function(req, res, next) {
   const token = req.headers.authorization;
-  if (token == access_token) {
+  if (token == accessToken) {
     next();
   } else {
-    let path = "/login";
-    this.props.history.push(path);
+    res.status === 401;
+    res.send(res.status);
   }
 };
 
