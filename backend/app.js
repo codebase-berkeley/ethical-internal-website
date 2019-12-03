@@ -11,6 +11,7 @@ const loginPassword = process.env.loginPassword;
 const accessToken = process.env.accessToken
 const userId = process.env.userId;
 const basicAuth = process.env.basicAuth;
+const googleSheet = process.env.googleSheet;
 const readline = require("readline");
 const { google } = require("googleapis");
 var fs = require("fs");
@@ -53,8 +54,8 @@ async function getId() {
 
   const response = await fetch(
     "https://api.bigcartel.com/v1/accounts/" +
-      userId +
-      "/products?page%5Blimit%5D=100",
+    userId +
+    "/products?page%5Blimit%5D=100",
     {
       headers: {
         Authorization: "Basic " + basicAuth,
@@ -143,7 +144,11 @@ async function getInventory(idList, json) {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+<<<<<<< HEAD
 app.get("/", withAuth, function(req, res) {
+=======
+app.get("/", function (req, res) {
+>>>>>>> origin/master
   res.json({ info: "Node.js, Express, and Postgres API" });
 });
 
@@ -155,8 +160,13 @@ app.put("/announcements/:id", withAuth, db.editAnnouncement);
 app.delete("/announcements/:id", withAuth, db.deleteAnnouncement);
 
 //express endpoint makes requests to orderquery.js
+<<<<<<< HEAD
 app.put("/orders/:orderId", withAuth, ordersdb.updatePickUp);
 app.get("/orders", withAuth, function(req, res) {
+=======
+app.put("/orders/:orderId", ordersdb.updatePickUp);
+app.get("/orders", function (req, res) {
+>>>>>>> origin/master
   // Authorization
   fs.readFile("credentials.json", (err, content) => {
     if (err) console.log("Error loading client secret file:", err);
@@ -166,14 +176,12 @@ app.get("/orders", withAuth, function(req, res) {
 
   /*
   Prints the order information from EthiCal's Google Sheet:
-  @see https://docs.google.com/spreadsheets/d/1ZNnltFhQluexcZrwWpuaIlMLtDQTeAI2WsoRHWgmELg/edit#gid=0
-  @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
   */
   function getSheetsData(auth) {
     const sheets = google.sheets({ version: "v4", auth });
     sheets.spreadsheets.values.get(
       {
-        spreadsheetId: "1ZNnltFhQluexcZrwWpuaIlMLtDQTeAI2WsoRHWgmELg",
+        spreadsheetId: googleSheet,
         range: "A2:H"
       },
       async (err, response) => {
