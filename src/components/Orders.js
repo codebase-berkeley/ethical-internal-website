@@ -1,5 +1,6 @@
 import React from "react";
 import OrderDataTable from "./OrderDataTable";
+import Checkbox from "./Checkbox";
 const localStorage = require("local-storage");
 
 class Orders extends React.Component {
@@ -9,6 +10,7 @@ class Orders extends React.Component {
       orderRows: []
     };
   }
+
   async componentDidMount() {
     const response = await fetch("http://localhost:3001/orders", {
       headers: { authorization: localStorage.get("token") }
@@ -22,16 +24,10 @@ class Orders extends React.Component {
   }
 
   render() {
-    const headings = [
-      "Pick Up Date",
-      "Last",
-      "First",
-      "Order#",
-      "Size/Style",
-      "Item Ordered",
-      "Item Quantity"
-    ];
-
+    /*
+     this variable arrayOfObjects converts a nested array to an array of objects
+     since react table needed an array of objects as input.
+     */
     var arrayOfObjects = this.state.orderRows.map(function(item) {
       return {
         PickUpDate: item[0],
@@ -40,12 +36,21 @@ class Orders extends React.Component {
         Order: item[3],
         SizeOrStyle: item[4],
         ItemOrdered: item[5],
-        ItemQuantity: item[6]
+        ItemQuantity: item[6],
+        PickupStatus: (
+          <Checkbox
+            key={item[3]}
+            pickUpStatus={item[7]}
+            orderNumber={item[3]}
+            item={item[5]}
+          />
+        )
       };
     });
+
     return (
-      <div className="Orders">
-        <h1 className="header"> Orders </h1>
+      <div className="header">
+        <h1 className="orders"> ORDERS </h1>
         <OrderDataTable arrayOfObjects={arrayOfObjects} />
       </div>
     );

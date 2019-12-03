@@ -1,13 +1,13 @@
+require("dotenv").config();
+
 const Pool = require("pg").Pool;
-var fs = require("fs");
-var config = fs.readFileSync("config.json", "utf8");
-config = JSON.parse(config);
+
 const pool = new Pool({
-  user: config.user,
-  host: config.host,
-  database: config.database,
-  password: config.password,
-  port: config.port
+  user: process.env.user,
+  host: process.env.host,
+  database: process.env.database,
+  password: process.env.password,
+  port: process.env.port
 });
 
 // Checks the pick up status of an order in the database
@@ -38,14 +38,20 @@ const addOrder = (gsOrder, gsItem, gsPickUp) => {
 
 // Updates the pick up status in the database when the checkbox is clicked on the website
 const updatePickUp = (request, response) => {
-  const { order_num, item, picked_up } = request.body;
+  const order_number = request.params.orderId;
+  const { item, picked_up } = request.body;
   pool.query(
-    "UPDATE order_table SET picked_up = $1 WHERE order_num = $2 AND item = $3",
-    [picked_up, order_num, item],
+    "UPDATE order_table SET picked_up = $1 WHERE order_number = $2 AND item = $3",
+    [picked_up, order_number, item],
     (error, results) => {
       if (error) {
         throw error;
       }
+      response
+        .status(200)
+        .send(
+          `Item ${item} with order number ${order_number} successfully updated`
+        );
     }
   );
 };

@@ -5,6 +5,7 @@
   "dependencies": {
     "bcrypt": "^3.0.7",
     "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
     "googleapis": "^39.2.0",
     "local-storage": "^2.0.0",
     "node-fetch": "^2.6.0",

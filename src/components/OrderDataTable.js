@@ -16,8 +16,16 @@ class OrderDataTable extends React.Component {
                   id: "Pick Up Date",
                   Header: "Pick Up Date",
                   accessor: row => `${row.PickUpDate}`,
+                  /*
+                   Arrow function that returns true if Date values are
+                   lesser and equal to the Date value that the user inputted.
+                   */
                   filterMethod: (filter, row) => {
                     if (
+                      /*
+                       Date.parse method parses a string representation of a date,
+                       and returns the number of milliseconds
+                       */
                       Date.parse(row._original.PickUpDate) <=
                       Date.parse(filter.value)
                     )
@@ -76,8 +84,26 @@ class OrderDataTable extends React.Component {
               Header: "Item Quantity",
               accessor: "ItemQuantity",
               filterable: false
+            },
+            {
+              Header: "Pickup Status",
+              accessor: "PickupStatus",
+              filterable: false,
+              sortMethod: (a, b) => {
+                a = a.props.pickUpStatus ? 1 : -1;
+                b = b.props.pickUpStatus ? 1 : -1;
+                if (a > b) {
+                  return 1;
+                }
+                if (b > a) {
+                  return -1;
+                } else {
+                  return 0;
+                }
+              }
             }
           ]}
+          //default sorting based on Pick Up Date
           defaultSorted={[
             {
               id: "Pick Up Date",
@@ -85,6 +111,7 @@ class OrderDataTable extends React.Component {
             }
           ]}
           filterable={true}
+          //set up a default Date on the filtered input
           defaultFiltered={[
             {
               id: "Pick Up Date",
