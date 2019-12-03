@@ -1,27 +1,27 @@
-require('dotenv').config;
+require("dotenv").config;
 
-const express = require('express');
+const express = require("express");
 const app = express();
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 const port = 3001;
-const db = require('./AnnouncementsQueries');
-const cors = require('cors');
-const fetch = require('node-fetch');
+const db = require("./AnnouncementsQueries");
+const cors = require("cors");
+const fetch = require("node-fetch");
 const loginPassword = process.env.loginPassword;
 const accessToken = process.env.accessToken;
 const userId = process.env.userId;
 const basicAuth = process.env.basicAuth;
 const googleSheet = process.env.googleSheet;
-const readline = require('readline');
-const {google} = require('googleapis');
-var fs = require('fs');
-const ordersdb = require('./orderquery');
-const bcryptjs = require('bcryptjs');
+const readline = require("readline");
+const {google} = require("googleapis");
+var fs = require("fs");
+const ordersdb = require("./orderquery");
+const bcryptjs = require("bcryptjs");
 app.use(cors());
 app.use(bodyParser.json());
-const withAuth = require('./middleware');
+const withAuth = require("./middleware");
 
-app.get('/checkToken', withAuth, function(req, res) {
+app.get("/checkToken", withAuth, function(req, res) {
   res.sendStatus(200);
 });
 
@@ -30,7 +30,7 @@ app.get('/checkToken', withAuth, function(req, res) {
  * then compared with the hashed version of the actual password.
  */
 
-app.post('/login', async function(req, res) {
+app.post("/login", async function(req, res) {
   const {hashedAttempt} = req.body;
   res.send(await getAccessToken(hashedAttempt));
 });
@@ -39,12 +39,12 @@ async function getAccessToken(hashedAttempt) {
   if (await bcryptjs.compare(loginPassword, hashedAttempt)) {
     return JSON.stringify({token: accessToken, correctPassword: true});
   } else {
-    return JSON.stringify({token: '', correctPassword: false});
+    return JSON.stringify({token: "", correctPassword: false});
   }
 }
 
 //express endpoint to bigcartel api
-app.get('/inventory', withAuth, async function(req, res) {
+app.get("/inventory", withAuth, async function(req, res) {
   res.send(await getId());
 });
 
@@ -53,14 +53,14 @@ async function getId() {
   let idList = [];
 
   const response = await fetch(
-    'https://api.bigcartel.com/v1/accounts/' +
+    "https://api.bigcartel.com/v1/accounts/" +
       userId +
-      '/products?page%5Blimit%5D=100',
+      "/products?page%5Blimit%5D=100",
     {
       headers: {
-        Authorization: 'Basic ' + basicAuth,
-        'Content-type': 'application/vnd.api+json',
-        Accept: 'application/vnd.api+json',
+        Authorization: "Basic " + basicAuth,
+        "Content-type": "application/vnd.api+json",
+        Accept: "application/vnd.api+json",
       },
     },
   );
@@ -90,7 +90,7 @@ async function getInventory(idList, json) {
   that to match with the IDs in singleProductIDAndName array and from there create a new
   nested arrays that contains the product name, quantity, price, and how many are sold.
   */
-  var includedList = json.included.filter(e => e.type == 'product_options');
+  var includedList = json.included.filter(e => e.type == "product_options");
   for (let i = 0; i < singleProductIDAndName.length; i++) {
     var singleObj = includedList.filter(
       e => e.id == singleProductIDAndName[i][0],
@@ -130,7 +130,7 @@ async function getInventory(idList, json) {
   for (let i = 0; i < multiProductIdName.length; i++) {
     var multiObj = includedList.filter(e => e.id == multiProductIdName[i][0]);
     var multiProductDisplayInfo = [
-      multiProductIdName[i][1] + ' (' + multiObj[0].attributes.name + ')',
+      multiProductIdName[i][1] + " (" + multiObj[0].attributes.name + ")",
       //json.data[i].attributes.name,
       multiObj[0].attributes.quantity,
       multiObj[0].attributes.price,
@@ -144,23 +144,23 @@ async function getInventory(idList, json) {
 
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.get('/', withAuth, function(req, res) {
-  res.json({info: 'Node.js, Express, and Postgres API'});
+app.get("/", withAuth, function(req, res) {
+  res.json({info: "Node.js, Express, and Postgres API"});
 });
 
 //frontend makes requests to express endpoint AnnouncementQueries.js
-app.get('/announcements', withAuth, db.getAllAnnouncements);
-app.get('/announcements/:id', withAuth, db.getAnnouncement);
-app.post('/announcements', withAuth, db.createAnnouncement);
-app.put('/announcements/:id', withAuth, db.editAnnouncement);
-app.delete('/announcements/:id', withAuth, db.deleteAnnouncement);
+app.get("/announcements", withAuth, db.getAllAnnouncements);
+app.get("/announcements/:id", withAuth, db.getAnnouncement);
+app.post("/announcements", withAuth, db.createAnnouncement);
+app.put("/announcements/:id", withAuth, db.editAnnouncement);
+app.delete("/announcements/:id", withAuth, db.deleteAnnouncement);
 
 //express endpoint makes requests to orderquery.js
-app.put('/orders/:orderId', withAuth, ordersdb.updatePickUp);
-app.get('/orders', withAuth, function(req, res) {
+app.put("/orders/:orderId", withAuth, ordersdb.updatePickUp);
+app.get("/orders", withAuth, function(req, res) {
   // Authorization
-  fs.readFile('credentials.json', (err, content) => {
-    if (err) console.log('Error loading client secret file:', err);
+  fs.readFile("credentials.json", (err, content) => {
+    if (err) console.log("Error loading client secret file:", err);
     // Authorize a client with credentials, then call the Google Sheets API.
     authorize(JSON.parse(content), getSheetsData);
   });
@@ -169,14 +169,14 @@ app.get('/orders', withAuth, function(req, res) {
   Prints the order information from EthiCal's Google Sheet:
   */
   function getSheetsData(auth) {
-    const sheets = google.sheets({version: 'v4', auth});
+    const sheets = google.sheets({version: "v4", auth});
     sheets.spreadsheets.values.get(
       {
         spreadsheetId: googleSheet,
-        range: 'A2:H',
+        range: "A2:H",
       },
       async (err, response) => {
-        if (err) console.log('The API returned an error: ' + err);
+        if (err) console.log("The API returned an error: " + err);
         // Assigns rows to order data from Google Sheets
         const rows = response.data.values;
         // Iterates through rows to apply database operations (adding, updating)
@@ -202,7 +202,7 @@ app.get('/orders', withAuth, function(req, res) {
         if (rows.length) {
           res.send(rows);
         } else {
-          console.log('No data found.');
+          console.log("No data found.");
         }
       },
     );
@@ -226,13 +226,13 @@ execute the given callback with the authorized OAuth2 client.
 */
 
 // If modifying these scopes, delete token.json.
-const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
+const SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"];
 /* 
 The file token.json stores the user's access and refresh tokens, and is
 created automatically when the authorization flow completes for the first
 time
 */
-const TOKEN_PATH = 'token.json';
+const TOKEN_PATH = "token.json";
 
 function authorize(credentials, callback) {
   const {client_secret, client_id, redirect_uris} = credentials.installed;
@@ -252,27 +252,27 @@ function authorize(credentials, callback) {
 
 function getNewToken(oAuth2Client, callback) {
   const authUrl = oAuth2Client.generateAuthUrl({
-    access_type: 'offline',
+    access_type: "offline",
     scope: SCOPES,
   });
-  console.log('Authorize this app by visiting this url:', authUrl);
+  console.log("Authorize this app by visiting this url:", authUrl);
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
   });
-  rl.question('Enter the code from that page here: ', code => {
+  rl.question("Enter the code from that page here: ", code => {
     rl.close();
     oAuth2Client.getToken(code, (err, token) => {
       if (err)
         return console.error(
-          'Error while trying to retrieve access token',
+          "Error while trying to retrieve access token",
           err,
         );
       oAuth2Client.setCredentials(token);
       // Store the token to disk for later program executions
       fs.writeFile(TOKEN_PATH, JSON.stringify(token), err => {
         if (err) return console.error(err);
-        console.log('Token stored to', TOKEN_PATH);
+        console.log("Token stored to", TOKEN_PATH);
       });
       callback(oAuth2Client);
     });
