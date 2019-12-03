@@ -3,18 +3,31 @@ import "./App.css";
 import Announcements from "./components/Announcements";
 import Inventory from "./components/Inventory";
 import Orders from "./components/Orders";
+import { Route, Switch, Redirect } from "react-router-dom";
+import Login from "./components/Login";
 import NavigationBar from "./components/NavigationBar";
-import { Route, Switch } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
-      <NavigationBar />
-      <Switch>
-        <Route component={Inventory} path="/inventory" />
-        <Route component={Orders} path="/orders" />
-        <Route component={Announcements} path="/" />
-      </Switch>
+      <div>
+        <Switch>
+          <Route path="/login" component={Login} />
+          <Route path="/announcements">
+            <Route component={NavigationBar} path="/" />
+            <Route component={Announcements} path="/" />
+          </Route>
+          <Route path="/inventory">
+            <Route component={NavigationBar} path="/" />
+            <Route component={Inventory} path="/" />
+          </Route>
+          <Route path="/orders">
+            <Route component={NavigationBar} path="/" />
+            <Route component={Orders} path="/" />
+          </Route>
+          <Redirect from exact="/" to="/login" />
+        </Switch>
+      </div>
     </div>
   );
 }

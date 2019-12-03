@@ -1,4 +1,4 @@
-require("dotenv").config;
+require("dotenv").config();
 
 const express = require("express");
 const app = express();
@@ -7,17 +7,44 @@ const port = 3001;
 const db = require("./AnnouncementsQueries");
 const cors = require("cors");
 const fetch = require("node-fetch");
+const loginPassword = process.env.loginPassword;
+const accessToken = process.env.accessToken;
 const userId = process.env.userId;
 const basicAuth = process.env.basicAuth;
 const googleSheet = process.env.googleSheet;
 const readline = require("readline");
-const { google } = require("googleapis");
+const {google} = require("googleapis");
 var fs = require("fs");
 const ordersdb = require("./orderquery");
+const bcryptjs = require("bcryptjs");
 app.use(cors());
 app.use(bodyParser.json());
+const withAuth = require("./middleware");
 
-app.get("/inventory", async function (req, res) {
+app.get("/checkToken", withAuth, function(req, res) {
+  res.sendStatus(200);
+});
+
+/*
+ * express endpoint to verify password. password attempt is hashed and
+ * then compared with the hashed version of the actual password.
+ */
+
+app.post("/login", async function(req, res) {
+  const {hashedAttempt} = req.body;
+  res.send(await getAccessToken(hashedAttempt));
+});
+
+async function getAccessToken(hashedAttempt) {
+  if (await bcryptjs.compare(loginPassword, hashedAttempt)) {
+    return JSON.stringify({token: accessToken, correctPassword: true});
+  } else {
+    return JSON.stringify({token: "", correctPassword: false});
+  }
+}
+
+//express endpoint to bigcartel api
+app.get("/inventory", withAuth, async function(req, res) {
   res.send(await getId());
 });
 
@@ -27,8 +54,8 @@ async function getId() {
 
   const response = await fetch(
     "https://api.bigcartel.com/v1/accounts/" +
-    userId +
-    "/products?page%5Blimit%5D=100",
+      userId +
+      "/products?page%5Blimit%5D=100",
     {
       headers: {
         Authorization: "Basic " + basicAuth,
@@ -115,22 +142,22 @@ async function getInventory(idList, json) {
   return list;
 }
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 
-app.get("/", function (req, res) {
-  res.json({ info: "Node.js, Express, and Postgres API" });
+app.get("/", withAuth, function(req, res) {
+  res.json({info: "Node.js, Express, and Postgres API"});
 });
 
-//express endpoint makes requests to AnnouncementQueries.js
-app.get("/announcements", db.getAllAnnouncements);
-app.get("/announcements/:id", db.getAnnouncement);
-app.post("/announcements", db.createAnnouncement);
-app.put("/announcements/:id", db.editAnnouncement);
-app.delete("/announcements/:id", db.deleteAnnouncement);
+//frontend makes requests to express endpoint AnnouncementQueries.js
+app.get("/announcements", withAuth, db.getAllAnnouncements);
+app.get("/announcements/:id", withAuth, db.getAnnouncement);
+app.post("/announcements", withAuth, db.createAnnouncement);
+app.put("/announcements/:id", withAuth, db.editAnnouncement);
+app.delete("/announcements/:id", withAuth, db.deleteAnnouncement);
 
 //express endpoint makes requests to orderquery.js
-app.put("/orders/:orderId", ordersdb.updatePickUp);
-app.get("/orders", function (req, res) {
+app.put("/orders/:orderId", withAuth, ordersdb.updatePickUp);
+app.get("/orders", withAuth, function(req, res) {
   // Authorization
   fs.readFile("credentials.json", (err, content) => {
     if (err) console.log("Error loading client secret file:", err);
@@ -142,7 +169,7 @@ app.get("/orders", function (req, res) {
   Prints the order information from EthiCal's Google Sheet:
   */
   function getSheetsData(auth) {
-    const sheets = google.sheets({ version: "v4", auth });
+    const sheets = google.sheets({version: "v4", auth});
     sheets.spreadsheets.values.get(
       {
         spreadsheetId: googleSheet,
@@ -208,7 +235,7 @@ time
 const TOKEN_PATH = "token.json";
 
 function authorize(credentials, callback) {
-  const { client_secret, client_id, redirect_uris } = credentials.installed;
+  const {client_secret, client_id, redirect_uris} = credentials.installed;
   const oAuth2Client = new google.auth.OAuth2(
     client_id,
     client_secret,

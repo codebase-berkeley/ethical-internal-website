@@ -1,6 +1,7 @@
 import React from "react";
 import DataTable from "./DataTable";
 import "./DataTable.css";
+const localStorage = require("local-storage");
 
 class Inventory extends React.Component {
   constructor() {
@@ -11,7 +12,13 @@ class Inventory extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await fetch("http://localhost:3001/inventory");
+    const response = await fetch("http://localhost:3001/inventory", {
+      headers: { authorization: localStorage.get("token") }
+    });
+    if (response.status === 401) {
+      let path = "/login";
+      this.props.history.push(path);
+    }
     const json = await response.json();
     this.setState({ api_rows: json });
   }

@@ -18,7 +18,7 @@ class NavigationBar extends React.Component {
           </li>
           <div className="left">
             <li>
-              <Link to="/">Ethical</Link>
+              <Link to="announcements">Ethical</Link>
             </li>
           </div>
         </ul>
