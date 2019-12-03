@@ -1,9 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Karla&display=swap");
-​ .home {
+.home {
   position: relative;
   font-family: Karla, sans-serif;
 }
-​ .logo {
+.logo {
   padding-top: 20vh;
 }
 .hi {
@@ -19,6 +19,6 @@
   height: 300px;
   background: #b8d64a;
 }
-​ .login {
+.login {
   padding-top: 2vh;
 }
