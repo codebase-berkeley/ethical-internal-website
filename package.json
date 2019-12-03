@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
     "googleapis": "^39.2.0",
     "node-fetch": "^2.6.0",
     "pg": "^7.12.1",
