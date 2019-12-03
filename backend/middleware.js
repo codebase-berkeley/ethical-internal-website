@@ -1,4 +1,5 @@
-const { accessToken } = require("./config");
+require("dotenv").config;
+const accessToken = process.env.accessToken;
 
 const withAuth = function(req, res, next) {
   const token = req.headers.authorization;
