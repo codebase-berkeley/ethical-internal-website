@@ -1,4 +1,5 @@
 import React from "react";
+const localStorage = require("local-storage");
 
 class Checkbox extends React.Component {
   constructor(props) {
@@ -16,7 +17,8 @@ class Checkbox extends React.Component {
         method: "PUT",
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          authorization: localStorage.get("token")
         },
         body: JSON.stringify({
           item: this.props.item,
