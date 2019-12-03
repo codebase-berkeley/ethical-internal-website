@@ -60,9 +60,9 @@ async function getId() {
       headers: {
         Authorization: "Basic " + basicAuth,
         "Content-type": "application/vnd.api+json",
-        Accept: "application/vnd.api+json",
-      },
-    },
+        Accept: "application/vnd.api+json"
+      }
+    }
   );
   const json = await response.json();
   return await getInventory(idList, json);
@@ -73,7 +73,7 @@ async function getInventory(idList, json) {
 
   //this singleProdInfos creates and array for all the data of single type products
   var singleProdInfos = json.data.filter(
-    item => item.relationships.options.data.length == 1,
+    item => item.relationships.options.data.length == 1
   );
 
   var singleProductIDAndName = [];
@@ -81,7 +81,7 @@ async function getInventory(idList, json) {
   for (let i = 0; i < singleProdInfos.length; i++) {
     singleProductIDAndName.push([
       singleProdInfos[i].relationships.options.data[0].id,
-      singleProdInfos[i].attributes.name,
+      singleProdInfos[i].attributes.name
     ]);
   }
 
@@ -93,20 +93,20 @@ async function getInventory(idList, json) {
   var includedList = json.included.filter(e => e.type == "product_options");
   for (let i = 0; i < singleProductIDAndName.length; i++) {
     var singleObj = includedList.filter(
-      e => e.id == singleProductIDAndName[i][0],
+      e => e.id == singleProductIDAndName[i][0]
     );
     var singleProductDisplayInfo = [
       singleProductIDAndName[i][1],
       singleObj[0].attributes.quantity,
       singleObj[0].attributes.price,
-      singleObj[0].attributes.sold,
+      singleObj[0].attributes.sold
     ];
     list.push(singleProductDisplayInfo); //we push that singleProductDisplayInfo array into the list array
   }
 
   //this multiProdInfos creates and array for all the data of single type products
   var multiProductInfo = json.data.filter(
-    item => item.relationships.options.data.length != 1,
+    item => item.relationships.options.data.length != 1
   );
 
   var multiProductIdName = [];
@@ -117,7 +117,7 @@ async function getInventory(idList, json) {
     for (let n = 0; n < multiProductInfoDataLength; n++) {
       multiProductIdName.push([
         multiProductInfo[i].relationships.options.data[n].id,
-        multiProductInfo[i].attributes.name,
+        multiProductInfo[i].attributes.name
       ]);
     }
   }
@@ -134,7 +134,7 @@ async function getInventory(idList, json) {
       //json.data[i].attributes.name,
       multiObj[0].attributes.quantity,
       multiObj[0].attributes.price,
-      multiObj[0].attributes.sold,
+      multiObj[0].attributes.sold
     ];
     list.push(multiProductDisplayInfo); //we push that multiProductDisplayInfo array into the list array
   }
@@ -173,7 +173,7 @@ app.get("/orders", withAuth, function(req, res) {
     sheets.spreadsheets.values.get(
       {
         spreadsheetId: googleSheet,
-        range: "A2:H",
+        range: "A2:H"
       },
       async (err, response) => {
         if (err) console.log("The API returned an error: " + err);
@@ -189,13 +189,13 @@ app.get("/orders", withAuth, function(req, res) {
           ordersdb.addOrder(
             rows[rowIndex][3],
             rows[rowIndex][5],
-            rows[rowIndex][7],
+            rows[rowIndex][7]
           );
         }
         for (rowIndex = 0; rowIndex < rows.length; rowIndex++) {
           var pickUpStatus = await ordersdb.checkAgainst(
             rows[rowIndex][3],
-            rows[rowIndex][5],
+            rows[rowIndex][5]
           );
           rows[rowIndex][7] = pickUpStatus;
         }
@@ -204,7 +204,7 @@ app.get("/orders", withAuth, function(req, res) {
         } else {
           console.log("No data found.");
         }
-      },
+      }
     );
   }
 });
@@ -239,7 +239,7 @@ function authorize(credentials, callback) {
   const oAuth2Client = new google.auth.OAuth2(
     client_id,
     client_secret,
-    redirect_uris[0],
+    redirect_uris[0]
   );
 
   // Check if we have previously stored a token.
@@ -253,12 +253,12 @@ function authorize(credentials, callback) {
 function getNewToken(oAuth2Client, callback) {
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: "offline",
-    scope: SCOPES,
+    scope: SCOPES
   });
   console.log("Authorize this app by visiting this url:", authUrl);
   const rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout,
+    output: process.stdout
   });
   rl.question("Enter the code from that page here: ", code => {
     rl.close();
@@ -266,7 +266,7 @@ function getNewToken(oAuth2Client, callback) {
       if (err)
         return console.error(
           "Error while trying to retrieve access token",
-          err,
+          err
         );
       oAuth2Client.setCredentials(token);
       // Store the token to disk for later program executions
