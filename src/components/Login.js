@@ -16,6 +16,20 @@ class Login extends Component {
     };
   }
 
+  /*async componentDidMount() {
+    const response = await fetch("http://localhost:3000/checkToken");
+    if (response.status === 401) {
+    } else if (response == true) {
+      if (localStorage.get("token")) {
+        let path = "/announcements";
+        this.props.history.push(path);
+      } else {
+        let path = "/login";
+        this.props.history.push(path);
+      }
+    }
+  }*/
+
   handleChange = event => {
     this.setState({ input: event.target.value });
   };
