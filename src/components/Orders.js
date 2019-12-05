@@ -9,6 +9,7 @@ class Orders extends React.Component {
     this.state = {
       orderRows: []
     };
+    this.updatePickUp = this.updatePickUp.bind(this);
   }
 
   async componentDidMount() {
@@ -23,12 +24,20 @@ class Orders extends React.Component {
     this.setState({ orderRows: json.map(elem => elem) });
   }
 
+  updatePickUp(index, status) {
+    var arrayOfObjects = this.state.orderRows;
+    arrayOfObjects[index][7] = status;
+    this.setState({
+      orderRows: arrayOfObjects
+    });
+  }
+
   render() {
     /*
      this variable arrayOfObjects converts a nested array to an array of objects
      since react table needed an array of objects as input.
      */
-    var arrayOfObjects = this.state.orderRows.map(function(item) {
+    var arrayOfObjects = this.state.orderRows.map((item, index) => {
       return {
         PickUpDate: item[0],
         Last: item[1],
@@ -43,6 +52,8 @@ class Orders extends React.Component {
             pickUpStatus={item[7]}
             orderNumber={item[3]}
             item={item[5]}
+            index={index}
+            updatePickUp={this.updatePickUp}
           />
         )
       };

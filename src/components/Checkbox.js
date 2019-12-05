@@ -1,4 +1,5 @@
 import React from "react";
+import Orders from "./Orders";
 const localStorage = require("local-storage");
 
 class Checkbox extends React.Component {
@@ -30,6 +31,7 @@ class Checkbox extends React.Component {
     this.setState(state => ({
       checked: !state.checked
     }));
+    this.props.updatePickUp(this.props.index, this.state.checked);
   }
 
   render() {
