@@ -4,6 +4,7 @@ import ethicalLogo from "./ethical.png";
 const bcryptjs = require("bcryptjs");
 const fetch = require("node-fetch");
 const localStorage = require("local-storage");
+const access_Token = process.env.accessToken;
 
 class Login extends Component {
   constructor() {
@@ -16,19 +17,25 @@ class Login extends Component {
     };
   }
 
-  /*async componentDidMount() {
+  async componentDidMount() {
     const response = await fetch("http://localhost:3000/checkToken");
+    console.log(response);
     if (response.status === 401) {
-    } else if (response == true) {
-      if (localStorage.get("token")) {
-        let path = "/announcements";
-        this.props.history.push(path);
-      } else {
-        let path = "/login";
-        this.props.history.push(path);
-      }
+      console.log("a");
+    } else if (
+      response !== true &&
+      localStorage.get("token") !== access_Token &&
+      this.props.history.top !== "/login"
+    ) {
+      console.log("b");
+      let path = "/login";
+      this.props.history.push(path);
+    } else {
+      console.log("c");
+      let path = "/announcements";
+      this.props.history.push(path);
     }
-  }*/
+  }
 
   handleChange = event => {
     this.setState({ input: event.target.value });

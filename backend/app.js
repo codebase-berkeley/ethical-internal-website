@@ -20,9 +20,9 @@ const bcryptjs = require("bcryptjs");
 app.use(cors());
 app.use(bodyParser.json());
 const withAuth = require("./middleware");
-const withAccess = require("./withAccess");
+const checkAccess = require("./withAccess");
 
-app.get("/checkToken", withAuth, withAccess.checkAccess);
+app.get("/checkToken", withAuth, checkAccess);
 
 /*
  * express endpoint to verify password. password attempt is hashed and
