@@ -22,6 +22,7 @@ app.use(bodyParser.json());
 const withAuth = require("./middleware");
 const checkAccess = require("./withAccess");
 
+//expess endpoint that checks if localStorage has the access token already.
 app.get("/checkToken", checkAccess);
 
 /*

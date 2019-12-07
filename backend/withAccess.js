@@ -5,9 +5,9 @@ const checkAccess = function(req, res) {
   const token = req.headers.authorization;
   console.log(token);
   if (token == accessToken) {
-    res.json(200, { result: "true" });
+    res.send(JSON.stringify({ result: true }));
   } else {
-    res.json({ result: "false" });
+    res.send(JSON.stringify({ result: false }));
   }
 };
 

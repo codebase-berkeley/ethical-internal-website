@@ -16,18 +16,25 @@ class Login extends Component {
     };
   }
 
+  /*
+  function that checks  if access token is in the local storage.
+  If it is, it will route to announcement page and if it is not,
+  it will route to login page.
+  */
   async componentDidMount() {
-    const response = await fetch("http://localhost:3000/checkToken", {
-      headers: { authorization: localStorage.get("token") }
+    const response = await fetch("http://localhost:3001/checkToken", {
+      headers: {
+        authorization: localStorage.get("token"),
+        Accept: "application.json"
+      }
     });
-    if (response.status === 401 || response.status === 200) {
+    if (response.status === 401) {
       let path = "/login";
       this.props.history.push(path);
     }
     const json = await response.json();
-    console.log(json);
     if (
-      json.result === "true" &&
+      json.result === true &&
       this.props.history.location.pathname === "/login"
     ) {
       let path = "/announcements";
