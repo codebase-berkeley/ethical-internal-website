@@ -4,7 +4,6 @@ import ethicalLogo from "./ethical.png";
 const bcryptjs = require("bcryptjs");
 const fetch = require("node-fetch");
 const localStorage = require("local-storage");
-const access_Token = process.env.accessToken;
 
 class Login extends Component {
   constructor() {
@@ -18,20 +17,19 @@ class Login extends Component {
   }
 
   async componentDidMount() {
-    const response = await fetch("http://localhost:3000/checkToken");
-    console.log(response);
-    if (response.status === 401) {
-      console.log("a");
-    } else if (
-      response !== true &&
-      localStorage.get("token") !== access_Token &&
-      this.props.history.top !== "/login"
-    ) {
-      console.log("b");
+    const response = await fetch("http://localhost:3000/checkToken", {
+      headers: { authorization: localStorage.get("token") }
+    });
+    if (response.status === 401 || response.status === 200) {
       let path = "/login";
       this.props.history.push(path);
-    } else {
-      console.log("c");
+    }
+    const json = await response.json();
+    console.log(json);
+    if (
+      json.result === "true" &&
+      this.props.history.location.pathname === "/login"
+    ) {
       let path = "/announcements";
       this.props.history.push(path);
     }

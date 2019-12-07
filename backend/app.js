@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 const withAuth = require("./middleware");
 const checkAccess = require("./withAccess");
 
-app.get("/checkToken", withAuth, checkAccess);
+app.get("/checkToken", checkAccess);
 
 /*
  * express endpoint to verify password. password attempt is hashed and

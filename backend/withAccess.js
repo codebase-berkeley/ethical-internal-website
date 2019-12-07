@@ -2,11 +2,12 @@ require("dotenv").config;
 const accessToken = process.env.accessToken;
 
 const checkAccess = function(req, res) {
-  const token = req.headers.accessToken;
-  if (token === accessToken) {
-    res.send("micah");
+  const token = req.headers.authorization;
+  console.log(token);
+  if (token == accessToken) {
+    res.json(200, { result: "true" });
   } else {
-    res.send(false);
+    res.json({ result: "false" });
   }
 };
 
