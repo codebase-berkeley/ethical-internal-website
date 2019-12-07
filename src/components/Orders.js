@@ -26,10 +26,12 @@ class Orders extends React.Component {
 
   updatePickUp(index, status) {
     var arrayOfObjects = this.state.orderRows;
-    arrayOfObjects[index][7] = status;
-    this.setState({
-      orderRows: arrayOfObjects
-    });
+    if (!arrayOfObjects[index][7]["gsPickUp"]) {
+      arrayOfObjects[index][7]["pickUpStatus"] = status;
+      this.setState({
+        orderRows: arrayOfObjects
+      });
+    }
   }
 
   render() {
@@ -49,7 +51,7 @@ class Orders extends React.Component {
         PickupStatus: (
           <Checkbox
             key={item[3]}
-            pickUpStatus={item[7]}
+            pickUpStatus={item[7]["pickUpStatus"]}
             orderNumber={item[3]}
             item={item[5]}
             index={index}
