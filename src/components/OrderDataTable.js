@@ -66,11 +66,6 @@ class OrderDataTable extends React.Component {
               ]
             },
             {
-              Header: "Orders",
-              accessor: "Order",
-              filterable: false
-            },
-            {
               Header: "Size/Style",
               accessor: "SizeOrStyle",
               filterable: false
