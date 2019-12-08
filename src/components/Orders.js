@@ -14,14 +14,14 @@ class Orders extends React.Component {
 
   async componentDidMount() {
     const response = await fetch("http://localhost:3001/orders", {
-      headers: { authorization: localStorage.get("token") }
+      headers: {authorization: localStorage.get("token")}
     });
     if (response.status === 401) {
       let path = "/login";
       this.props.history.push(path);
     }
     const json = await response.json();
-    this.setState({ orderRows: json.map(elem => elem) });
+    this.setState({orderRows: json.map(elem => elem)});
   }
 
   updatePickUp(index, status) {
@@ -50,7 +50,7 @@ class Orders extends React.Component {
         ItemQuantity: item[6],
         PickupStatus: (
           <Checkbox
-            key={item[3]}
+            key={item[3] + item[5]}
             pickUpStatus={item[7]["pickUpStatus"]}
             orderNumber={item[3]}
             item={item[5]}
