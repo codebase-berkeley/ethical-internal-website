@@ -80,37 +80,39 @@ class Login extends Component {
 
   render() {
     return (
-      <body className="home">
-        <div className="Block"></div>
-        <div className="logo">
-          <img className="pic" src={ethicalLogo} alt="profile" />
-        </div>
-        <div className="hi">
-          <div>Welcome home EthiCal members, please log in below!</div>
-        </div>
-        <div className="login">
-          <form>
-            <label>
-              Password:
-              <input
-                type="password"
-                name="input"
-                value={this.state.input}
-                onChange={this.handleChange}
-              />
-            </label>
-          </form>
-          <button
-            onClick={() => this.buttonClick()}
-            id="button"
-            type="submit"
-            value="Login"
-          >
-            {" "}
-            Login{" "}
-          </button>
-        </div>
-      </body>
+      <div>
+        <tbody className="home">
+          <div className="Block"></div>
+          <div className="logo">
+            <img className="pic" src={ethicalLogo} alt="profile" />
+          </div>
+          <div className="hi">
+            <div>Welcome home EthiCal members, please log in below!</div>
+          </div>
+          <div className="login">
+            <form>
+              <label>
+                Password:
+                <input
+                  type="password"
+                  name="input"
+                  value={this.state.input}
+                  onChange={this.handleChange}
+                />
+              </label>
+            </form>
+            <button
+              onClick={() => this.buttonClick()}
+              id="button"
+              type="submit"
+              value="Login"
+            >
+              {" "}
+              Login{" "}
+            </button>
+          </div>
+        </tbody>
+      </div>
     );
   }
 }
