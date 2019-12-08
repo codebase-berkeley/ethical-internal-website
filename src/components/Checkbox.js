@@ -30,6 +30,7 @@ class Checkbox extends React.Component {
     this.setState(state => ({
       checked: !state.checked
     }));
+    this.props.updatePickUp(this.props.index, this.state.checked);
   }
 
   render() {

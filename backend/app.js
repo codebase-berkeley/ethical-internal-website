@@ -20,7 +20,7 @@ const bcryptjs = require("bcryptjs");
 app.use(cors());
 app.use(bodyParser.json());
 const withAuth = require("./middleware");
-const checkAccess = require("./withAccess");
+const checkAccess = require("./checkAccess");
 
 //expess endpoint that checks if localStorage has the access token already.
 app.get("/checkToken", checkAccess);
@@ -193,14 +193,16 @@ app.get("/orders", withAuth, function(req, res) {
           );
         }
         for (rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+          var gsPickUp = rows[rowIndex][7];
           var pickUpStatus = await ordersdb.checkAgainst(
             rows[rowIndex][3],
-            rows[rowIndex][5]
+            rows[rowIndex][5],
+            rows[rowIndex][7]
           );
-          rows[rowIndex][7] = pickUpStatus;
+          rows[rowIndex][7] = { pickUpStatus, gsPickUp };
         }
         if (rows.length) {
-          res.send(rows);
+          res.send(JSON.stringify(rows));
         } else {
           console.log("No data found.");
         }
@@ -209,7 +211,9 @@ app.get("/orders", withAuth, function(req, res) {
   }
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () =>
+  console.log(`Ethical internal website backend listening on port ${port}!`)
+);
 
 /*
 Create an OAuth2 client with the given credentials, and then execute the
