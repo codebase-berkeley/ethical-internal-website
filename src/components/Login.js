@@ -1,9 +1,11 @@
 import "./Login.css";
 import React, { Component } from "react";
 import ethicalLogo from "./ethical.png";
+import styled from "styled-components";
 const bcryptjs = require("bcryptjs");
 const fetch = require("node-fetch");
 const localStorage = require("local-storage");
+
 
 class Login extends Component {
   constructor() {
@@ -42,6 +44,7 @@ class Login extends Component {
         hashedAttempt: await this.hashPassword()
       })
     });
+
     const json = await response.json();
     this.setState({ access_token: json.token, validity: json.correctPassword });
     if (!this.state.validity) {
@@ -67,7 +70,7 @@ class Login extends Component {
             <label>
               Password:
               <input
-                type="password"
+                placeholder="Enter password"
                 name="input"
                 value={this.state.input}
                 onChange={this.handleChange}
