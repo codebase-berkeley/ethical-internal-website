@@ -1,5 +1,4 @@
 import React from "react";
-import Orders from "./Orders";
 const localStorage = require("local-storage");
 
 class Checkbox extends React.Component {

@@ -17,11 +17,7 @@ async function checkAgainst(gsOrder, gsItem, gsPickUp) {
       "SELECT * FROM order_table WHERE order_number = $1 AND item = $2",
       [gsOrder, gsItem]
     );
-    if (gsPickUp) {
-      return gsPickUp;
-    } else {
-      return result.rows[0].picked_up;
-    }
+    return gsPickUp || result.rows[0].picked_up;
   } catch (error) {
     console.error(error);
   }
