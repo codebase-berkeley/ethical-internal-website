@@ -14,7 +14,9 @@ class Orders extends React.Component {
 
   async componentDidMount() {
     const response = await fetch("http://localhost:3001/orders", {
-      headers: {authorization: localStorage.get("token")}
+      headers: { authorization: localStorage.get("token") },
+      Accept: "application.json"
+
     });
     if (response.status === 401) {
       let path = "/login";

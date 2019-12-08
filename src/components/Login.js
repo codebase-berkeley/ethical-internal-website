@@ -73,7 +73,7 @@ class Login extends Component {
 
   render() {
     return (
-      <body className="home">
+      <div className="home">
         <div className="Block"></div>
         <div className="logo">
           <img className="pic" src={ethicalLogo} alt="profile" />
@@ -103,7 +103,7 @@ class Login extends Component {
             Login{" "}
           </button>
         </div>
-      </body>
+      </div>
     );
   }
 }
