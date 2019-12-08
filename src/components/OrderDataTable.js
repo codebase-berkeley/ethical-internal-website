@@ -10,6 +10,23 @@ class OrderDataTable extends React.Component {
           data={this.props.arrayOfObjects}
           columns={[
             {
+              Header: "Pickup Status",
+              accessor: "PickupStatus",
+              filterable: false,
+              sortMethod: (a, b) => {
+                a = a.props.pickUpStatus ? 1 : -1;
+                b = b.props.pickUpStatus ? 1 : -1;
+                if (a > b) {
+                  return 1;
+                }
+                if (b > a) {
+                  return -1;
+                } else {
+                  return 0;
+                }
+              }
+            },
+            {
               Header: "",
               columns: [
                 {
@@ -79,23 +96,6 @@ class OrderDataTable extends React.Component {
               Header: "Item Quantity",
               accessor: "ItemQuantity",
               filterable: false
-            },
-            {
-              Header: "Pickup Status",
-              accessor: "PickupStatus",
-              filterable: false,
-              sortMethod: (a, b) => {
-                a = a.props.pickUpStatus ? 1 : -1;
-                b = b.props.pickUpStatus ? 1 : -1;
-                if (a > b) {
-                  return 1;
-                }
-                if (b > a) {
-                  return -1;
-                } else {
-                  return 0;
-                }
-              }
             }
           ]}
           //default sorting based on Pick Up Date

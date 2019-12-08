@@ -14,14 +14,14 @@ class Orders extends React.Component {
 
   async componentDidMount() {
     const response = await fetch("http://localhost:3001/orders", {
-      headers: {authorization: localStorage.get("token")}
+      headers: { authorization: localStorage.get("token") }
     });
     if (response.status === 401) {
       let path = "/login";
       this.props.history.push(path);
     }
     const json = await response.json();
-    this.setState({orderRows: json.map(elem => elem)});
+    this.setState({ orderRows: json.map(elem => elem) });
   }
 
   updatePickUp(index, status) {
