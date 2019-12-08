@@ -28,15 +28,8 @@ class Login extends Component {
         Accept: "application.json"
       }
     });
-    if (response.status === 401) {
-      let path = "/login";
-      this.props.history.push(path);
-    }
     const json = await response.json();
-    if (
-      json.result === true &&
-      this.props.history.location.pathname === "/login"
-    ) {
+    if (json.result === true) {
       let path = "/announcements";
       this.props.history.push(path);
     }
