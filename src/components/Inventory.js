@@ -24,7 +24,7 @@ class Inventory extends React.Component {
   }
 
   render() {
-    var arrayOfObjects = this.state.api_rows.map(function (item) {
+    var arrayOfObjects = this.state.api_rows.map(function(item) {
       return {
         Item: item[0],
         Count: item[1],
