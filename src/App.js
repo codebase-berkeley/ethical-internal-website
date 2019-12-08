@@ -3,7 +3,7 @@ import "./App.css";
 import Announcements from "./components/Announcements";
 import Inventory from "./components/Inventory";
 import Orders from "./components/Orders";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Login from "./components/Login";
 import NavigationBar from "./components/NavigationBar";
 
@@ -25,7 +25,6 @@ function App() {
             <Route component={NavigationBar} path="/" />
             <Route component={Orders} path="/" />
           </Route>
-          <Redirect from exact="/" to="/login" />
         </Switch>
       </div>
     </div>
