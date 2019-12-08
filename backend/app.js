@@ -211,7 +211,9 @@ app.get("/orders", withAuth, function(req, res) {
   }
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () =>
+  console.log(`Ethical internal website backend listening on port ${port}!`)
+);
 
 /*
 Create an OAuth2 client with the given credentials, and then execute the
