@@ -45,9 +45,7 @@ const createAnnouncement = (req, res) => {
       if (error) {
         throw error;
       }
-      res
-        .status(201)
-        .send(`Announcement created with ID: ${results.rows[0].id}`);
+      res.status(201).send(JSON.stringify({ id: results.rows[0].id }));
     }
   );
 };

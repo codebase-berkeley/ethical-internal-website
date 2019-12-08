@@ -24,7 +24,7 @@ class Announcements extends React.Component {
   componentDidMount() {
     this.mounted = true;
     this.setFilledTextareaHeight();
-  }
+  };
 
   handleChange1 = event => {
     this.setState({ title: event.target.value })
@@ -51,19 +51,23 @@ class Announcements extends React.Component {
       method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-type": "application/json"
+        "Content-type": "application/json",
+        authorization: localStorage.get("token")
       },
       body: JSON.stringify({
         title: this.state.title,
         info: this.state.info
       })
     });
+    const json = await response.json();
     this.setState({
-      creating: false
+      creating: false,
+      postValues: [{ id: json.id, user_id: null, title: this.state.title, info: this.state.info, time: null }].concat(this.state.postValues)
     })
   }
 
   render() {
+    console.log(this.state.postValues)
     return (
       <div className="header" >
         <h1 className="Announcements-section">ANNOUNCEMENTS </h1>
@@ -92,7 +96,7 @@ class Announcements extends React.Component {
                   type="text"
                   inputProps={{ style: { fontSize: 40 } }}
                   placeholder="Announcement title"
-                  onChange={this.handleChange2}>
+                  onChange={this.handleChange1}>
                 </textarea>
                 <br />
                 <textarea
