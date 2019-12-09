@@ -31,7 +31,6 @@ const rotate = keyframes`
 const Rotate = styled.div`
   display: inline-block;
   animation: ${rotate} 7s linear infinite;
-  top: 3em;
   position: relative;
   padding: 1.5rem 1em;
 `;
@@ -92,7 +91,7 @@ class Login extends Component {
             <img className="pic2" src={ethicalLogo} alt="profile" />
           </div>
           <div className="welcome">
-            <div> Welcome home, please log in below!</div>
+            <div>Welcome home, please log in below!</div>
           </div>
           <div className="login">
             <label
