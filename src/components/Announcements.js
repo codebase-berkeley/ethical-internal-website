@@ -23,12 +23,14 @@ class Announcements extends React.Component {
 
   render() {
     return (
-      <div className="header">
-        <h1 className="Announcements-section">ANNOUNCEMENTS </h1>
-        {this.state.postValues.map(item => (
-          <Post key={item.id} {...item} />
-        ))}
-      </div>
+      <body>
+        <div className="header">
+          <h1 className="Announcements-section">ANNOUNCEMENTS </h1>
+          {this.state.postValues.map(item => (
+            <Post key={item.id} {...item} />
+          ))}
+        </div>
+      </body>
     );
   }
 }

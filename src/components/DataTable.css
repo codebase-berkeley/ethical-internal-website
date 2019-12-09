@@ -5,13 +5,13 @@
 
 .header {
   font-family: 'Paytone One', sans-serif;
-  font-size: x-large;
+  font-size: 1.18em;
   color: rgb(80, 80, 80);
 }
 
 .ReactTable .rt-thead.-header {
   font-family: 'Karla', sans-serif;
-  font-size: 22px;
+  font-size: 0.87rem;
   font-weight: bold;
   background: rgba(141, 195, 77, 0.3)
 }
@@ -22,7 +22,7 @@
   display: -ms-flexbox;
   padding: 10px;
   font-family: 'Karla', sans-serif;
-  font-size: 22px;
+  font-size: 0.87rem;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -33,7 +33,7 @@
 }
 
 .ReactTable {
-  line-height: 45px;
+  line-height: 4vh;
 }
 
 .ReactTable.-highlight .rt-tbody .rt-tr:hover {
