@@ -8,15 +8,15 @@ height: 100vh;
   border: 1.5vh solid rgba(239, 241, 125, 0.651);
   background-color: white;
   width: 58vw;
-  height: 50vh;
+  height: 42vh;
   position: absolute;
   top: 16vh;
   left: 1vw;
   right: 1vw;
   margin: auto;
   z-index: inherit;
-  padding-top: 5em;
-  padding-bottom: 2vh;
+  padding-top: 4vh;
+  padding-bottom: 4vh;
   padding-left:2vw;
   padding-right: 2vw; 
   border-radius: 20px;
@@ -64,7 +64,7 @@ height: 100vh;
   font-family: 'Solway', serif;
 }
 .pic {
-  width: 9.5vh;
+  width: 9.2vh;
   height: auto;
 }
 .pic2 {
