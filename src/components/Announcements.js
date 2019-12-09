@@ -26,11 +26,11 @@ class Announcements extends React.Component {
     this.setFilledTextareaHeight();
   };
 
-  handleChange1 = event => {
+  titleInput = event => {
     this.setState({ title: event.target.value })
   };
 
-  handleChange2 = event => {
+  infoInput = event => {
     this.setState({ info: event.target.value })
   };
 
@@ -67,7 +67,6 @@ class Announcements extends React.Component {
   }
 
   render() {
-    console.log(this.state.postValues)
     return (
       <div className="header" >
         <h1 className="Announcements-section">ANNOUNCEMENTS </h1>
@@ -96,7 +95,7 @@ class Announcements extends React.Component {
                   type="text"
                   inputProps={{ style: { fontSize: 40 } }}
                   placeholder="Announcement title"
-                  onChange={this.handleChange1}>
+                  onChange={this.titleInput}>
                 </textarea>
                 <br />
                 <textarea
@@ -108,7 +107,7 @@ class Announcements extends React.Component {
                   type="text"
                   inputProps={{ style: { fontSize: 40 } }}
                   placeholder="Type your announcement here..."
-                  onChange={this.handleChange2}>
+                  onChange={this.infoInput}>
                 </textarea>
               </form>
               <Button

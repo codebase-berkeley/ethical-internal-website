@@ -151,7 +151,7 @@ app.get("/", withAuth, function (req, res) {
 //frontend makes requests to express endpoint AnnouncementQueries.js
 app.get("/announcements", withAuth, db.getAllAnnouncements);
 app.get("/announcements/:id", withAuth, db.getAnnouncement);
-app.post("/announcements/", withAuth, db.createAnnouncement);
+app.post("/announcements", withAuth, db.createAnnouncement);
 app.put("/announcements/:id", withAuth, db.editAnnouncement);
 app.delete("/announcements/:id", withAuth, db.deleteAnnouncement);
 
