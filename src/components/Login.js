@@ -1,7 +1,7 @@
 import "./Login.css";
 import React, { Component } from "react";
-import ethicalLogo from "./images/ethical.png";
-import ethicalLogoPic from "./images/ethicalPic.png";
+import ethicalLogo from "../images/ethical.png";
+import ethicalLogoPic from "../images/ethicalPic.png";
 import styled, { keyframes } from 'styled-components'
 const bcryptjs = require("bcryptjs");
 const fetch = require("node-fetch");
