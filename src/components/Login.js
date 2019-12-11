@@ -70,6 +70,7 @@ class Login extends Component {
             <label>
               Password:
               <input
+                type="password"
                 placeholder="Enter password"
                 name="input"
                 value={this.state.input}

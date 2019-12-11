@@ -91,7 +91,6 @@ class Announcements extends React.Component {
                   id="story"
                   name="story"
                   resize="vertical"
-                  value={this.state.input}
                   type="text"
                   inputProps={{ style: { fontSize: 40 } }}
                   placeholder="Announcement title"
@@ -103,7 +102,6 @@ class Announcements extends React.Component {
                   id="story"
                   name="story"
                   resize="vertical"
-                  value={this.state.input}
                   type="text"
                   inputProps={{ style: { fontSize: 40 } }}
                   placeholder="Type your announcement here..."
