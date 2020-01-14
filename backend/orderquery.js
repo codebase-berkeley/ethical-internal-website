@@ -11,13 +11,13 @@ const pool = new Pool({
 });
 
 // Checks the pick up status of an order in the database
-async function checkAgainst(gsOrder, gsItem) {
+async function checkAgainst(gsOrder, gsItem, gsPickUp) {
   try {
     const result = await pool.query(
       "SELECT * FROM order_table WHERE order_number = $1 AND item = $2",
       [gsOrder, gsItem]
     );
-    return result.rows[0].picked_up;
+    return gsPickUp || result.rows[0].picked_up;
   } catch (error) {
     console.error(error);
   }
