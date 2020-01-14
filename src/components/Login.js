@@ -2,23 +2,10 @@ import "./Login.css";
 import React, { Component } from "react";
 import ethicalLogo from "../images/ethical.png";
 import ethicalLogoPic from "../images/ethicalPic.png";
-import styled, { keyframes } from 'styled-components'
+import styled, { keyframes } from "styled-components";
 const bcryptjs = require("bcryptjs");
 const fetch = require("node-fetch");
 const localStorage = require("local-storage");
-
-const Button = styled.button`
-background: ${props => props.primary ? "rgba(141, 195, 77)" : "white"};
-color: ${props => props.primary ? "white" : "rgba(141, 195, 77)"};
-font-size: 90%;
-margin: 1em;
-left: 0.0001vw;
-bottom: 0.11rem;
-position: relative;
-padding: 0.2em 0.7rem;
-border: .105rem solid rgba(141, 195, 77);
-border-radius: 5px;
-`;
 
 const rotate = keyframes`
   from {
@@ -104,9 +91,11 @@ class Login extends Component {
 
   render() {
     return (
-      <body className="home">
+      <div className="home">
         <div className="block">
-          <Rotate><img className="pic" src={ethicalLogoPic} alt="profile" /></Rotate>
+          <Rotate>
+            <img className="pic" src={ethicalLogoPic} alt="profile" />
+          </Rotate>
           <div className="logo">
             <img className="pic2" src={ethicalLogo} alt="profile" />
           </div>
@@ -114,8 +103,7 @@ class Login extends Component {
             <div>Welcome home, please log in below!</div>
           </div>
           <div className="login">
-            <label
-              className="passwordLabel">
+            <label className="passwordLabel">
               Password:
               <input
                 type="password"
@@ -125,7 +113,7 @@ class Login extends Component {
                 onChange={this.handleChange}
               />
             </label>
-          </form>
+          </div>
           <button
             onClick={() => this.buttonClick()}
             id="button"

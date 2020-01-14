@@ -8,7 +8,7 @@ class DataTable extends React.Component {
       <div>
         <ReactTable
           data={this.props.arrayOfObjects}
-          noDataText={() => "Loading..."}
+          noDataText={<p> "Loading..." </p>}
           filterable
           defaultFilterMethod={(filter, row) =>
             String(row[filter.id]) === filter.value

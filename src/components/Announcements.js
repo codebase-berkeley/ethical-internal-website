@@ -21,17 +21,12 @@ class Announcements extends React.Component {
     this.state = { postValues: [], creating: false, title: "", info: "" };
   }
 
-  componentDidMount() {
-    this.mounted = true;
-    this.setFilledTextareaHeight();
-  };
-
   titleInput = event => {
-    this.setState({ title: event.target.value })
+    this.setState({ title: event.target.value });
   };
 
   infoInput = event => {
-    this.setState({ info: event.target.value })
+    this.setState({ info: event.target.value });
   };
 
   async componentDidMount() {
@@ -62,13 +57,21 @@ class Announcements extends React.Component {
     const json = await response.json();
     this.setState({
       creating: false,
-      postValues: [{ id: json.id, user_id: null, title: this.state.title, info: this.state.info, time: null }].concat(this.state.postValues)
-    })
+      postValues: [
+        {
+          id: json.id,
+          user_id: null,
+          title: this.state.title,
+          info: this.state.info,
+          time: null
+        }
+      ].concat(this.state.postValues)
+    });
   }
 
   render() {
     return (
-      <div className="header" >
+      <div className="header">
         <h1 className="Announcements-section">ANNOUNCEMENTS </h1>
         <div className="dropdown-button">
           <Button
@@ -94,8 +97,8 @@ class Announcements extends React.Component {
                   type="text"
                   inputProps={{ style: { fontSize: 40 } }}
                   placeholder="Announcement title"
-                  onChange={this.titleInput}>
-                </textarea>
+                  onChange={this.titleInput}
+                ></textarea>
                 <br />
                 <textarea
                   className="textArea"
@@ -105,8 +108,8 @@ class Announcements extends React.Component {
                   type="text"
                   inputProps={{ style: { fontSize: 40 } }}
                   placeholder="Type your announcement here..."
-                  onChange={this.infoInput}>
-                </textarea>
+                  onChange={this.infoInput}
+                ></textarea>
               </form>
               <Button
                 primary
@@ -115,7 +118,7 @@ class Announcements extends React.Component {
                 type="submit"
               >
                 Post
-                </Button>
+              </Button>
             </div>
           )}
         </div>
@@ -124,7 +127,7 @@ class Announcements extends React.Component {
             <Post key={item.id} {...item} />
           ))}
         </div>
-      </div >
+      </div>
     );
   }
 }
