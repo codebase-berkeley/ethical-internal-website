@@ -44,7 +44,7 @@ async function getAccessToken(hashedAttempt) {
 }
 
 //express endpoint to bigcartel api
-app.get("/inventory", withAuth, async function(req, res) {
+app.get("/inventory", withAuth, async function (req, res) {
   res.send(await getId());
 });
 
@@ -54,8 +54,8 @@ async function getId() {
 
   const response = await fetch(
     "https://api.bigcartel.com/v1/accounts/" +
-      userId +
-      "/products?page%5Blimit%5D=100",
+    userId +
+    "/products?page%5Blimit%5D=100",
     {
       headers: {
         Authorization: "Basic " + basicAuth,
@@ -144,7 +144,7 @@ async function getInventory(idList, json) {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/", withAuth, function(req, res) {
+app.get("/", withAuth, function (req, res) {
   res.json({ info: "Node.js, Express, and Postgres API" });
 });
 
@@ -157,7 +157,7 @@ app.delete("/announcements/:id", withAuth, db.deleteAnnouncement);
 
 //express endpoint makes requests to orderquery.js
 app.put("/orders/:orderId", withAuth, ordersdb.updatePickUp);
-app.get("/orders", withAuth, function(req, res) {
+app.get("/orders", withAuth, function (req, res) {
   // Authorization
   fs.readFile("credentials.json", (err, content) => {
     if (err) console.log("Error loading client secret file:", err);

@@ -91,6 +91,7 @@ class Login extends Component {
         hashedAttempt: await this.hashPassword()
       })
     });
+
     const json = await response.json();
     this.setState({ access_token: json.token, validity: json.correctPassword });
     if (!this.state.validity) {
@@ -116,24 +117,24 @@ class Login extends Component {
             <label
               className="passwordLabel">
               Password:
-              </label>
-            <input
-              className="passwordBox"
-              type="password"
-              name="input"
-              value={this.state.input}
-              onChange={this.handleChange}
-            />
-            <Button primary
-              className='button'
-              onClick={() => this.buttonClick()}
-              id="button"
-              type="submit"
-              value="Login"
-            >
-              Login
-            </Button>
-          </div>
+              <input
+                type="password"
+                placeholder="Enter password"
+                name="input"
+                value={this.state.input}
+                onChange={this.handleChange}
+              />
+            </label>
+          </form>
+          <button
+            onClick={() => this.buttonClick()}
+            id="button"
+            type="submit"
+            value="Login"
+          >
+            {" "}
+            Login{" "}
+          </button>
         </div>
       </div>
     );
