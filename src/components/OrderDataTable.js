@@ -95,7 +95,19 @@ class OrderDataTable extends React.Component {
             {
               Header: "Item Quantity",
               accessor: "ItemQuantity",
-              filterable: false
+              filterable: false,
+              sortMethod: (a, b) => {
+                a = parseInt(a);
+                b = parseInt(b);
+                if (a > b) {
+                  return 1;
+                }
+                if (b > a) {
+                  return -1;
+                } else {
+                  return 0;
+                }
+              }
             }
           ]}
           //default sorting based on Pick Up Date
