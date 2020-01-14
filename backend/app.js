@@ -13,17 +13,17 @@ const userId = process.env.userId;
 const basicAuth = process.env.basicAuth;
 const googleSheet = process.env.googleSheet;
 const readline = require("readline");
-const {google} = require("googleapis");
+const { google } = require("googleapis");
 var fs = require("fs");
 const ordersdb = require("./orderquery");
 const bcryptjs = require("bcryptjs");
 app.use(cors());
 app.use(bodyParser.json());
 const withAuth = require("./middleware");
+const checkAccess = require("./checkAccess");
 
-app.get("/checkToken", withAuth, function(req, res) {
-  res.sendStatus(200);
-});
+//expess endpoint that checks if localStorage has the access token already.
+app.get("/checkToken", checkAccess);
 
 /*
  * express endpoint to verify password. password attempt is hashed and
@@ -31,15 +31,15 @@ app.get("/checkToken", withAuth, function(req, res) {
  */
 
 app.post("/login", async function(req, res) {
-  const {hashedAttempt} = req.body;
+  const { hashedAttempt } = req.body;
   res.send(await getAccessToken(hashedAttempt));
 });
 
 async function getAccessToken(hashedAttempt) {
   if (await bcryptjs.compare(loginPassword, hashedAttempt)) {
-    return JSON.stringify({token: accessToken, correctPassword: true});
+    return JSON.stringify({ token: accessToken, correctPassword: true });
   } else {
-    return JSON.stringify({token: "", correctPassword: false});
+    return JSON.stringify({ token: "", correctPassword: false });
   }
 }
 
@@ -142,10 +142,10 @@ async function getInventory(idList, json) {
   return list;
 }
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", withAuth, function(req, res) {
-  res.json({info: "Node.js, Express, and Postgres API"});
+  res.json({ info: "Node.js, Express, and Postgres API" });
 });
 
 //frontend makes requests to express endpoint AnnouncementQueries.js
@@ -169,7 +169,7 @@ app.get("/orders", withAuth, function(req, res) {
   Prints the order information from EthiCal's Google Sheet:
   */
   function getSheetsData(auth) {
-    const sheets = google.sheets({version: "v4", auth});
+    const sheets = google.sheets({ version: "v4", auth });
     sheets.spreadsheets.values.get(
       {
         spreadsheetId: googleSheet,
@@ -193,14 +193,16 @@ app.get("/orders", withAuth, function(req, res) {
           );
         }
         for (rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+          var gsPickUp = rows[rowIndex][7];
           var pickUpStatus = await ordersdb.checkAgainst(
             rows[rowIndex][3],
-            rows[rowIndex][5]
+            rows[rowIndex][5],
+            rows[rowIndex][7]
           );
-          rows[rowIndex][7] = pickUpStatus;
+          rows[rowIndex][7] = { pickUpStatus, gsPickUp };
         }
         if (rows.length) {
-          res.send(rows);
+          res.send(JSON.stringify(rows));
         } else {
           console.log("No data found.");
         }
@@ -209,7 +211,9 @@ app.get("/orders", withAuth, function(req, res) {
   }
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () =>
+  console.log(`Ethical internal website backend listening on port ${port}!`)
+);
 
 /*
 Create an OAuth2 client with the given credentials, and then execute the
@@ -235,7 +239,7 @@ time
 const TOKEN_PATH = "token.json";
 
 function authorize(credentials, callback) {
-  const {client_secret, client_id, redirect_uris} = credentials.installed;
+  const { client_secret, client_id, redirect_uris } = credentials.installed;
   const oAuth2Client = new google.auth.OAuth2(
     client_id,
     client_secret,

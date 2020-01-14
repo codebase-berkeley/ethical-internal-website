@@ -46,6 +46,25 @@ class Login extends Component {
     };
   }
 
+  /*
+  function that checks  if access token is in the local storage.
+  If it is, it will route to announcement page and if it is not,
+  it will route to login page.
+  */
+  async componentDidMount() {
+    const response = await fetch("http://localhost:3001/checkToken", {
+      headers: {
+        authorization: localStorage.get("token"),
+        Accept: "application.json"
+      }
+    });
+    const json = await response.json();
+    if (json.result === true) {
+      let path = "/announcements";
+      this.props.history.push(path);
+    }
+  }
+
   handleChange = event => {
     this.setState({ input: event.target.value });
   };
@@ -116,7 +135,7 @@ class Login extends Component {
             </Button>
           </div>
         </div>
-      </body>
+      </div>
     );
   }
 }
