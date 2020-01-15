@@ -8,7 +8,7 @@ class OrderDataTable extends React.Component {
       <div>
         <ReactTable
           data={this.props.arrayOfObjects}
-          noDataText={() => "Loading..."}
+          noDataText={<p> "Loading..." </p>}
           columns={[
             {
               Header: "Pickup Status",

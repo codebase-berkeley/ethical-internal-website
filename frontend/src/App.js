@@ -25,7 +25,10 @@ function App() {
             <Route component={NavigationBar} path="/" />
             <Route component={Orders} path="/" />
           </Route>
-          <Redirect from="/" to="/announcements" />
+          <Route path="/">
+            <Route component={NavigationBar} path="/" />
+            <Route component={Orders} path="/" />
+          </Route>
         </Switch>
       </div>
     </div>
