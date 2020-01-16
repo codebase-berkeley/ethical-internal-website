@@ -2,32 +2,34 @@
 @import url("https://fonts.googleapis.com/css?family=Karla&display=swap");
 
 .header {
-    font-family: 'Paytone One', sans-serif;
-    font-size: x-large;
-    color: rgb(80, 80, 80);
-  }
+  font-family: "Paytone One", sans-serif;
+  font-size: x-large;
+  color: rgb(80, 80, 80);
+}
 .textArea {
-  font-family: 'Karla', sans-serif;
+  font-family: "Karla", sans-serif;
   width: 75vw;
-  height:20vh;
+  height: 20vh;
   color: #000;
   resize: both;
   font-size: 2.5vh;
   overflow: auto;
   border: 2px solid #8dc34d;
   border-radius: 3px;
+  padding: 15px;
 }
 .title {
-  font-family: 'Karla', sans-serif;
+  font-family: "Karla", sans-serif;
   width: 75vw;
-  height:4vh;
+  height: 4vh;
   color: #000;
   resize: none;
   font-size: 2.5vh;
   overflow: none;
   border: 2px solid #8dc34d;
   border-radius: 3px;
+  padding: 15px;
 }
 .posts {
-    padding-top: 2vh;
+  padding-top: 2vh;
 }

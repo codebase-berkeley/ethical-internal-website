@@ -18,27 +18,27 @@ const Button = styled.button`
 class Announcements extends React.Component {
   constructor() {
     super();
-    this.state = { postValues: [], creating: false, title: "", info: "" };
+    this.state = {postValues: [], creating: false, title: "", info: ""};
   }
 
   titleInput = event => {
-    this.setState({ title: event.target.value });
+    this.setState({title: event.target.value});
   };
 
   infoInput = event => {
-    this.setState({ info: event.target.value });
+    this.setState({info: event.target.value});
   };
 
   async componentDidMount() {
     const response = await fetch("http://localhost:3001/announcements", {
-      headers: { authorization: localStorage.get("token") }
+      headers: {authorization: localStorage.get("token")}
     });
     if (response.status === 401) {
       let path = "/login";
       this.props.history.push(path);
     }
     const json = await response.json();
-    this.setState({ postValues: json });
+    this.setState({postValues: json});
   }
 
   async buttonClick() {
@@ -80,8 +80,7 @@ class Announcements extends React.Component {
               this.setState({
                 creating: true
               })
-            }
-          >
+            }>
             Make new announcement
           </Button>
         </div>
@@ -91,32 +90,25 @@ class Announcements extends React.Component {
               <form>
                 <textarea
                   className="title"
-                  id="story"
-                  name="story"
                   resize="vertical"
                   type="text"
-                  inputProps={{ style: { fontSize: 40 } }}
                   placeholder="Announcement title"
                   onChange={this.titleInput}
-                ></textarea>
+                />
                 <br />
                 <textarea
                   className="textArea"
-                  id="story"
-                  name="story"
                   resize="vertical"
                   type="text"
-                  inputProps={{ style: { fontSize: 40 } }}
                   placeholder="Type your announcement here..."
                   onChange={this.infoInput}
-                ></textarea>
+                />
               </form>
               <Button
                 primary
                 onClick={() => this.buttonClick()}
                 id="button"
-                type="submit"
-              >
+                type="submit">
                 Post
               </Button>
             </div>

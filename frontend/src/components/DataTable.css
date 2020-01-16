@@ -4,16 +4,16 @@
 @import url("https://fonts.googleapis.com/css?family=Paytone+One&display=swap");
 
 .header {
-  font-family: 'Paytone One', sans-serif;
+  font-family: "Paytone One", sans-serif;
   font-size: 1.18em;
   color: rgb(80, 80, 80);
 }
 
 .ReactTable .rt-thead.-header {
-  font-family: 'Karla', sans-serif;
+  font-family: "Karla", sans-serif;
   font-size: 0.87rem;
   font-weight: bold;
-  background: rgba(141, 195, 77, 0.3)
+  background: rgba(141, 195, 77, 0.3);
 }
 
 .ReactTable {
@@ -21,7 +21,7 @@
   display: -webkit-box;
   display: -ms-flexbox;
   padding: 10px;
-  font-family: 'Karla', sans-serif;
+  font-family: "Karla", sans-serif;
   font-size: 0.87rem;
   display: flex;
   -webkit-box-orient: vertical;
@@ -29,7 +29,6 @@
   -ms-flex-direction: column;
   flex-direction: column;
   border: 2px solid rgba(0, 0, 0, 0.1);
-  
 }
 
 .ReactTable {

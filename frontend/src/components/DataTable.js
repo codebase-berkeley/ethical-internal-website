@@ -36,7 +36,10 @@ class DataTable extends React.Component {
             {
               Header: "Price",
               accessor: "Price",
-              filterable: false
+              filterable: false,
+              sortMethod: (a, b) => {
+                return parseFloat(a) - parseFloat(b);
+              }
             },
             {
               Header: "Sold",
@@ -51,7 +54,7 @@ class DataTable extends React.Component {
               value: ""
             }
           ]}
-          onFilteredChange={filtered => this.setState({ filtered })}
+          onFilteredChange={filtered => this.setState({filtered})}
           defaultPageSize={20}
           className="-striped -highlight"
         />
