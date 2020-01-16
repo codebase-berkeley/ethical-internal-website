@@ -9,10 +9,10 @@
   margin: 2vw;
   padding: 30px;
   border-radius: 12px;
+  text-align: left;
 }
 
 .Post-title {
-  display: flex;
   color: #000000;
   font-family: "Paytone One", sans-serif;
   font-weight: 200;
