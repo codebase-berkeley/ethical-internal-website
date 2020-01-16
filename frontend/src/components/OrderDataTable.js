@@ -39,6 +39,13 @@ class OrderDataTable extends React.Component {
                    lesser and equal to the Date value that the user inputted.
                    */
                   filterMethod: (filter, row) => {
+                    /*
+                     Check that the filter value matches the format M/D/YYYY
+                     and don't filter otherwise
+                     */
+                    if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(filter.value)) {
+                      return true;
+                    }
                     if (
                       /*
                        Date.parse method parses a string representation of a date,
@@ -50,6 +57,15 @@ class OrderDataTable extends React.Component {
                       return true;
                     else {
                       return false;
+                    }
+                  },
+                  sortMethod: (a, b) => {
+                    if (isNaN(Date.parse(a))) {
+                      return -1;
+                    } else if (isNaN(Date.parse(b))) {
+                      return 1;
+                    } else {
+                      return Date.parse(a) - Date.parse(b);
                     }
                   }
                 }
@@ -119,14 +135,7 @@ class OrderDataTable extends React.Component {
             }
           ]}
           filterable={true}
-          //set up a default Date on the filtered input
-          defaultFiltered={[
-            {
-              id: "Pick Up Date",
-              value: "12/31/2025"
-            }
-          ]}
-          onFilteredChange={filtered => this.setState({ filtered })}
+          onFilteredChange={filtered => this.setState({filtered})}
           defaultPageSize={20}
           className="-striped -highlight"
         />
