@@ -13,7 +13,7 @@ class Orders extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await fetch("http://localhost:3001/orders", {
+    const response = await fetch("https://ethical-backend.herokuapp.com/orders", {
       headers: { authorization: localStorage.get("token") },
       Accept: "application.json"
     });

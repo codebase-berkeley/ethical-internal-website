@@ -12,7 +12,7 @@ class Inventory extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await fetch("http://localhost:3001/inventory", {
+    const response = await fetch("https://ethical-backend.herokuapp.com/inventory", {
       headers: { authorization: localStorage.get("token") }
     });
     if (response.status === 401) {

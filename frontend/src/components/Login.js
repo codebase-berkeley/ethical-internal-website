@@ -39,7 +39,7 @@ class Login extends Component {
   it will route to login page.
   */
   async componentDidMount() {
-    const response = await fetch("http://localhost:3001/checkToken", {
+    const response = await fetch("https://ethical-backend.herokuapp.com/checkToken", {
       headers: {
         authorization: localStorage.get("token"),
         Accept: "application.json"
@@ -68,7 +68,7 @@ class Login extends Component {
   }
 
   async buttonClick() {
-    const response = await fetch("http://localhost:3001/login", {
+    const response = await fetch("https://ethical-backend.herokuapp.com/login", {
       method: "POST",
       headers: {
         Accept: "application/json",

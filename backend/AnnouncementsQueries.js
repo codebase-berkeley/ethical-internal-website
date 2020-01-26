@@ -1,13 +1,22 @@
 require("dotenv").config();
 
-const Pool = require("pg").Pool;
-const pool = new Pool({
-  user: process.env.userName,
-  host: process.env.userHost,
-  database: process.env.userDatabase,
-  password: process.env.userPassword,
-  port: process.env.userPort
+// const Pool = require("pg").Pool;
+//
+// const pool = new Pool({
+//   user: process.env.user,
+//   host: process.env.host,
+//   database: process.env.database,
+//   password: process.env.password,
+//   port: process.env.port
+// });
+
+const { Client } = require("pg");
+
+const pool = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true
 });
+pool.connect();
 
 const getAllAnnouncements = (req, res) => {
   pool.query(

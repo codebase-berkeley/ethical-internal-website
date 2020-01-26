@@ -12,7 +12,7 @@ class Checkbox extends React.Component {
 
   async handleCheckboxChange() {
     let response = fetch(
-      "http://localhost:3001/orders/" + this.props.orderNumber,
+      "https://ethical-backend.herokuapp.com/orders/" + this.props.orderNumber,
       {
         method: "PUT",
         headers: {

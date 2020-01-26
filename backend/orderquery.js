@@ -1,14 +1,22 @@
 require("dotenv").config();
+//
+// const Pool = require("pg").Pool;
+//
+// const pool = new Pool({
+//   user: process.env.user,
+//   host: process.env.host,
+//   database: process.env.database,
+//   password: process.env.password,
+//   port: process.env.port
+// });
 
-const Pool = require("pg").Pool;
+const { Client } = require("pg");
 
-const pool = new Pool({
-  user: process.env.user,
-  host: process.env.host,
-  database: process.env.database,
-  password: process.env.password,
-  port: process.env.port
+const pool = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true
 });
+pool.connect();
 
 // Checks the pick up status of an order in the database
 async function checkAgainst(gsOrder, gsItem, gsPickUp) {

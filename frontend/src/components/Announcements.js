@@ -30,7 +30,7 @@ class Announcements extends React.Component {
   };
 
   async componentDidMount() {
-    const response = await fetch("http://localhost:3001/announcements", {
+    const response = await fetch("https://ethical-backend.herokuapp.com/announcements", {
       headers: {authorization: localStorage.get("token")}
     });
     if (response.status === 401) {
@@ -42,7 +42,7 @@ class Announcements extends React.Component {
   }
 
   async buttonClick() {
-    const response = await fetch("http://localhost:3001/announcements", {
+    const response = await fetch("https://ethical-backend.herokuapp.com/announcements", {
       method: "POST",
       headers: {
         Accept: "application/json",
